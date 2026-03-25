@@ -21,8 +21,8 @@ async function bootstrap() {
   })
 
   const config = new DocumentBuilder()
-    .setTitle('Movie Explorer API')
-    .setDescription('REST API Movie Explorer')
+    .setTitle('Cart API')
+    .setDescription('REST API Cart')
     .setVersion('1.0')
     .build()
 

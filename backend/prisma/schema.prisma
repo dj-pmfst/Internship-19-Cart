@@ -8,39 +8,89 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   password  String
-  isAdmin   Boolean    @default(false)
-  favorites Favourite[]
+  firstName String?
+  lastName  String?
+  phone     String?
+  isAdmin   Boolean   @default(false)
+  address   Address?
+  favourites Favourite[]
+  orders    Order[]
 }
 
-enum Role {
-  USER
-  ADMIN
+model Address {
+  id         Int    @id @default(autoincrement())
+  street     String
+  city       String
+  country    String
+  postalCode String
+  user       User   @relation(fields: [userId], references: [id])
+  userId     Int    @unique
 }
 
-model Movie {
-  id          Int      @id @default(autoincrement())
-  title       String   @unique
-  year        Int
-  rating      Float
-  description String
-  poster      String
-  genres      Genre[] @relation("MovieGenres")
-  favourites  Favourite[]
+model Product {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String
+    price       Float
+    brand       String
+    imageUrl    String?
+    sizes       String[]
+    colors      String[]
+    inStock     Boolean   @default(true)
+    createdAt   DateTime  @default(now())
+    categoryId  Int
+    category    Category  @relation(fields: [categoryId], references: [id])
+    favourites  Favourite[]
+    orderItems  OrderItem[]
 }
 
-model Genre {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  movies Movie[] @relation("MovieGenres")
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
 }
 
 model Favourite {
-  id      Int   @id @default(autoincrement())
-  movie   Movie @relation(fields: [movieId], references: [id])
-  movieId Int   
-  user    User  @relation(fields: [userId], references: [id])
-  userId  Int
+  id        Int     @id @default(autoincrement())
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+
+  @@unique([productId, userId])
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  user            User        @relation(fields: [userId], references: [id])
+  userId          Int
+  status          OrderStatus @default(PENDING)
+  total           Float
+  items           OrderItem[]
+  shippingAddress String
+  billingAddress  String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  price     Float
+  size      String?
+  color     String?
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
 }
