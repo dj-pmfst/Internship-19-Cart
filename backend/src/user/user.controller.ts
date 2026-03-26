@@ -1,9 +1,20 @@
-import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import { 
+    Body, 
+    Controller, 
+    Post, 
+    HttpCode, 
+    HttpStatus,
+    Put,
+    Get,
+    UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ApiTags, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import { CurrentUser } from 'src/user/current-user.decorator';
+import { UserAuthGuard } from './user-auth.guard';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -22,5 +33,19 @@ export class UserController {
     @ApiOkResponse({ description: 'Prijava uspješna' })
     login(@Body() { email, password }: LoginDto) {
         return this.userService.login(email, password);
+    }
+
+    @UseGuards(UserAuthGuard)
+    @Get('me')
+    @ApiOkResponse({ description: 'Profil prijavljenog korisnika' })
+    getMe(@CurrentUser('id') userId: number) {
+        return this.userService.getMe(userId);
+    }
+
+    @UseGuards(UserAuthGuard)
+    @Put('me')
+    @ApiOkResponse({ description: 'Ažuriran profil' })
+    updateMe(@CurrentUser('id') userId: number, @Body() dto: UpdateUserDto) {
+        return this.userService.updateMe(userId, dto);
     }
 }

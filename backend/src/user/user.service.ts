@@ -72,4 +72,31 @@ export class UserService {
             token: this.jwtService.sign(payload),
         };
     }
+
+    getMe(userId: number) {
+        return this.prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                email: true,
+                isAdmin: true,
+                address: true,
+                paymentMethod: true,
+            },
+        });
+    }
+    
+    async updateMe(userId: number, dto: UpdateUserDto) {
+        return this.prisma.user.update({
+            where: { id: userId },
+            data: dto,
+            select: {
+                id: true,
+                email: true,
+                isAdmin: true,
+                address: true,
+                paymentMethod: true,
+            },
+        });
+    }
 }
