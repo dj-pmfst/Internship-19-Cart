@@ -51,13 +51,159 @@ async function main() {
     )
 
     const products = [
-        { name: 'Air Max 90', 
-        category: 'Casual', 
-        brand: 'Nike', 
-        price: 129.99, 
-        sizes: ['40','41','42','43'], 
-        colors: ['White','Black'], 
-        inStock: true },
+        { 
+            name: 'Air Max 90', 
+            category: 'Casual', 
+            brand: 'Nike', 
+            price: 129.99, 
+            sizes: ['40','41','42','43'], 
+            colors: ['White','Black'], 
+            inStock: true 
+        },
+        {
+            name:'Onitsuka Tiger Mexico 66',
+            category: 'Streetwear',
+            brand:'Onitsuka',
+            price:89.90,
+            sizes:['44', '45', '46', '47'],
+            colors: ['Yellow', 'Red'],
+            inStock: true
+        },
+        {
+            name: 'Reserved T-shirt',
+            category: 'Casual',
+            brand: 'Reserved',
+            price:9.90,
+            sizes:['S', 'M', 'L'],
+            colors: ['Black'],
+            inStock: true
+        },
+        {
+            name: 'Pull&Bear Hoodie',
+            category: 'Casual',
+            brand: 'Pull&Bear',
+            price: 19.90,
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['Black', 'Grey'],
+            inStock: true
+        },
+        {
+            name: 'Zara Sweatshirt',
+            category: 'Casual',
+            brand: 'Zara',
+            price: 19.90,
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['Black', 'Green'],
+            inStock: true
+        },
+        {
+            name: 'Bershka shirt',
+            category: 'Formal',
+            brand: 'Bershka',
+            price: 29.90,
+            sizes: ['S', 'M', 'L'],
+            colors: ['Blue', 'Green'],
+            inStock: true
+        },
+        {
+            name: 'Bershka Spider-Man Long Sleeve',
+            category: 'Streetwear',
+            brand: 'Bershka',
+            price: 29.90,
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['Black'],
+            inStock: true
+        },
+        {
+            name: 'ACNE Studios Yoyogi 2021F Jeans',
+            category: 'Streetwear',
+            brand: 'ACNE Studios',
+            price: 299.90,
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['Black'],
+            inStock: true
+        },
+        {
+            name: 'Adidas Spezial',
+            category: 'Streewear',
+            brand: 'Adidas',
+            price: 79.90,
+            sizes: ['40', '41', '42', '43'],
+            colors: ['Grey', 'Red'],
+            inStock: true
+        },
+        {
+            name: 'Nike Sports Jacket',
+            category: 'Sport',
+            brand: 'Nike',
+            price: 104.95,
+            sizes: ['S', 'M', 'L'],
+            colors: ['Black'],
+            inStock: true
+        },
+        {
+            name: 'Adidas Performance Dres',
+            category: 'Sport',
+            brand: 'Adidas',
+            price: 59.90,
+            sizes: ['XS', 'S', 'M', 'L'],
+            colors: ['Green'],
+            inStock: true
+        },
+        {
+            name: 'Puma Sports Jacket',
+            category: 'Sport',
+            brand: 'Puma',
+            price: 50.90,
+            sizes: ['S', 'M', 'L'],
+            colors: ['Blue'],
+            inStock: true
+        },
+        {
+            name: 'Puma Sports Sweatpants',
+            category: 'Sport',
+            brand: 'Puma',
+            price: 39.90,
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['Grey'],
+            inStock: true
+        },
+        {
+            name: 'Nike Regular Sports Pants',
+            category: 'Sport',
+            brand: 'Nike',
+            price: 20.00,
+            sizes: ['S', 'M', 'L'],
+            colors: ['Red', 'Green'],
+            inStock: true
+        },
+        {
+            name: 'Sinsay Black Pants',
+            category: 'Formal',
+            brand: 'Sinsay',
+            price: 29.90,
+            sizes: ['XS', 'S', 'M', 'L'],
+            colors: ['Black'],
+            inStock: true
+        },
+        {
+            name: 'Zara Dress Shoes',
+            category: 'Formal',
+            brand: 'Zara',
+            price: 49.90,
+            sizes: ['37', '38', '39', '40', '41'],
+            colors: ['Black'],
+            inStock: true
+        },
+        {
+            name: 'Bershka Sweatpants',
+            category: 'Casual',
+            brand: 'Bershka',
+            price: 19.90,
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['White'],
+            inStock: true
+        }
 
     ]
 
