@@ -1,34 +1,44 @@
-import 'dotenv/config' 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-import { NestExpressApplication } from '@nestjs/platform-express'
-import { join } from 'path'
+import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+import helmet from 'helmet';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule)
-  app.useStaticAssets(join(__dirname, '..', '..', 'public'), {
-    setHeaders: (res) => {
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
-        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
-    }
-  })
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.enableCors({
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
-  })
+    app.useStaticAssets(join(__dirname, '..', '..', 'public'), {
+        setHeaders: (res) => {
+            res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+        }
+    });
 
-  const config = new DocumentBuilder()
-    .setTitle('Cart API')
-    .setDescription('REST API Cart')
-    .setVersion('1.0')
-    .build()
+    app.use(helmet());
 
-  const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api', app, document)
+    app.enableCors({
+        origin: '*',
+        methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+    });
 
-  await app.listen(3000)
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+    app.useGlobalInterceptors(new ResponseInterceptor());
+    app.useGlobalFilters(new AllExceptionsFilter());
+
+    const config = new DocumentBuilder()
+        .setTitle('E-Commerce API')
+        .setDescription('REST API')
+        .setVersion('1.0')
+        .addBearerAuth()
+        .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+
+    await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
