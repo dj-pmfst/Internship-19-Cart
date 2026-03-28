@@ -204,7 +204,6 @@ async function main() {
             colors: ['White'],
             inStock: true
         }
-
     ]
 
     for (const product of products) {

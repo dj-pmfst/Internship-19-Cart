@@ -1,0 +1,48 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    max-width: 100px;
+    height: auto;
+    filter: invert(90%);
+    margin-bottom: -5rem; 
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 10rem;
+}
+
+.code {
+    font-size: 8rem;
+    font-family: "Pacifico", cursive;
+    font-weight: 100;
+    max-height: 150px;
+}
+
+.message {
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.homeButton {
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.homeButton:hover {
+    transform: translateY(-5px) scale(1.02);
+}
