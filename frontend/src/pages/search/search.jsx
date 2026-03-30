@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useApp } from '../context/AppContext'
 import ProductCard from '../components/ProductCard'
 import styles from './search.module.css'
 
