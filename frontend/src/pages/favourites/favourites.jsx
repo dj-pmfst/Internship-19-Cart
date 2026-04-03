@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import ProductGrid from '../components/ProductGrid'
+import ProductGrid from '../components/ProductGrid/ProductGrid' ///
 import styles from './favourites.module.css'
 
 export default function Favourites() {
   const { products, favourites } = useApp()
   const navigate = useNavigate()
-  const favProducts = products.filter(p => favorites.includes(p.id))
+  const favProducts = products.filter(p => favourites.includes(p.id))
 
   return (
     <div className="page">

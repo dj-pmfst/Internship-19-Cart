@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
 import ProductCard from '../components/ProductCard'
 import styles from './Home.module.css'
 

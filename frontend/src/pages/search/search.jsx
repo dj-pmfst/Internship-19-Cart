@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import ProductCard from '../components/ProductCard'
+import ProductCard from '../components/ProductCard/ProductCard'  //note to self- probaj opet popravit ove importe svugdi
 import styles from './search.module.css'
 
 const filters = ['All', 'Casual', 'Streetwear', 'Formal', 'Sport']
