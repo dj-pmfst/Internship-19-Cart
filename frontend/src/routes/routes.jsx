@@ -1,11 +1,14 @@
 export const ROUTES = {
-    HOME: '/home',
-    AUTH: '/',
+    ROOT: '/',
     WELCOME: '/welcome',
-    MOVIES: '/movies',
-    MOVIE_DETAIL: '/movies/:id',
+    HOME: '/home',
+    SEARCH: '/search',
+    PRODUCT_DETAIL: '/products/:id',
     FAVOURITES: '/favourites',
-    MANAGER: '/manager',
+    CART: '/cart',
+    CHECKOUT: '/checkout',
+    PROFILE: '/profile',
+    NOT_FOUND: '*',
 }
-
-export const movieDetailPath = (id) => `/movies/${id}`
+  
+export const productDetailPath = (id) => `/products/${id}`
