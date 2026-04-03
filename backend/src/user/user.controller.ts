@@ -34,6 +34,12 @@ export class UserController {
     login(@Body() { email, password }: LoginDto) {
         return this.userService.login(email, password);
     }
+}
+
+@ApiTags('users')
+@Controller('users')
+export class UsersController {
+    constructor(private readonly userService: UserService) {}
 
     @UseGuards(UserAuthGuard)
     @Get('me')
@@ -44,7 +50,7 @@ export class UserController {
 
     @UseGuards(UserAuthGuard)
     @Put('me')
-    @ApiOkResponse({ description: 'Ažuriran profil' })
+    @ApiOkResponse({ description: 'Azuriran profil' })
     updateMe(@CurrentUser('id') userId: number, @Body() dto: UpdateUserDto) {
         return this.userService.updateMe(userId, dto);
     }

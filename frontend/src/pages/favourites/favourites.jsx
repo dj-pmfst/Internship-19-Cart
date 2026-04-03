@@ -20,7 +20,7 @@ export default function Favourites() {
         products={favProducts}
         emptyTitle="Nothing saved yet"
       >
-        <button className="btn-outline" onClick={() => navigate('/')} style={{ marginTop: '1rem', width: 'auto', padding: '0 2rem' }}>
+        <button className="btn-outline" onClick={() => navigate('/')} >
           Explore Collection
         </button>
       </ProductGrid>

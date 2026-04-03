@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
+import { UserController, UsersController } from './user.controller';
 import { UserService } from './user.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
@@ -7,7 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({
-    controllers: [UserController],
+    controllers: [UserController, UsersController],
     providers: [UserService, JwtStrategy],
     imports: [
         PrismaModule,

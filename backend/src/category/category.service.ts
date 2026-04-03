@@ -17,4 +17,12 @@ export class CategoryService {
             include: { products: true }
         })
     }
+
+    async remove(id: number) {
+        const category = await this.prisma.category.findUnique({
+            where: { id },
+            include: { _count: { select: { products: true } } },
+        });
+        return this.prisma.category.delete({ where: { id } });
+    }
 }

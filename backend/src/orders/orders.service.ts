@@ -17,7 +17,7 @@ export class OrdersService {
         }
 
         const total = dto.items.reduce((sum, item) => {
-            const product = products.find((p) => p.id === item.productId);
+            const product = products.find((p) => p.id === item.productId)!;
             return sum + product.price * item.quantity;
         }, 0);
 
@@ -31,7 +31,7 @@ export class OrdersService {
                     create: dto.items.map((item) => ({
                         productId: item.productId,
                         quantity: item.quantity,
-                        price: products.find((p) => p.id === item.productId).price,
+                        price: products.find((p) => p.id === item.productId)!.price,
                     })),
                 },
             },

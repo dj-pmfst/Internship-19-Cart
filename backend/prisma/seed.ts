@@ -125,7 +125,7 @@ async function main() {
         },
         {
             name: 'Adidas Spezial',
-            category: 'Streewear',
+            category: 'Streetwear',
             brand: 'Adidas',
             price: 79.90,
             sizes: ['40', '41', '42', '43'],
