@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom'
-import ProductCard from '../../components/ProductCard/ProductCard'
-import styles from './Home.module.css'
+import { useNavigate } from "react-router-dom";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import styles from "./Home.module.css";
 
 export default function Home() {
-  const { products } = useApp()
-  const navigate = useNavigate()
+  const { products } = useApp();
+  const navigate = useNavigate();
 
   return (
     <div className="page">
@@ -17,13 +17,15 @@ export default function Home() {
         placeholder="Search..."
         className={styles.searchBar}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') navigate(`/search?q=${e.target.value}`)
+          if (e.key === "Enter") navigate(`/search?q=${e.target.value}`);
         }}
       />
 
       <div className="product-grid">
-        {products.map(p => <ProductCard key={p.id} product={p} />)}
+        {products.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
       </div>
     </div>
-  )
+  );
 }

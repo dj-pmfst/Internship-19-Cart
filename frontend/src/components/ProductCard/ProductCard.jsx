@@ -1,18 +1,20 @@
-import styles from './ProductCard.module.css'
+import styles from "./ProductCard.module.css";
 
 export default function ProductCard({ product }) {
-  const { favorites, toggleFav, addToCart } = useApp()
-  const isFav = favorites.includes(product.id)
+  const { favorites, toggleFav, addToCart } = useApp();
+  const isFav = favorites.includes(product.id);
 
   return (
     <div className={styles.card} onClick={() => addToCart(product.id)}>
       <div className={styles.imageWrapper}>
         <button
           className={styles.favBtn}
-          onClick={e => { e.stopPropagation(); toggleFav(product.id) }}
-          aria-label="Toggle favourite"
-        >
-          <img src="src/assets/heart.svg"/>
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFav(product.id);
+          }}
+          aria-label="Toggle favourite">
+          <img src="src/assets/heart.svg" />
         </button>
       </div>
       <div className={styles.info}>
@@ -21,12 +23,16 @@ export default function ProductCard({ product }) {
         <p className={styles.price}>{product.price} $</p>
         {product.colors && (
           <div className={styles.swatches}>
-            {product.colors.map(c => (
-              <span key={c} className={styles.swatch} style={{ background: c }} />
+            {product.colors.map((c) => (
+              <span
+                key={c}
+                className={styles.swatch}
+                style={{ background: c }}
+              />
             ))}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
