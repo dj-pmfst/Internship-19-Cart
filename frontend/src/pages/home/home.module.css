@@ -12,6 +12,11 @@
   cursor: pointer;
 }
 
+.searchBar img{
+    width: 24px;
+    height: 24px;
+}
+
 .searchPlaceholder {
   font-size: 0.95rem;
   color: var(--text-light);

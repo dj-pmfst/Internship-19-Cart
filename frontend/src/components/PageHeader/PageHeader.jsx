@@ -1,15 +1,15 @@
 import styles from "./PageHeader.module.css";
+import { NavLink } from "react-router-dom"
 
 export function PageHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
         <img src="src/assets/logo.svg" />
-        <span className={styles.logoText}>CART</span>
       </div>
-      <button className={styles.bell} aria-label="Notifications">
+      <NavLink to="/notifications" className={({ isActive }) => isActive ? styles.active : ''}>
         <img src="src/assets/notification.svg" />
-      </button>
+      </NavLink>      
     </header>
   );
 }

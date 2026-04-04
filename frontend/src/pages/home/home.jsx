@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <PageHeader />
-
+      <hr/>
       <div className={styles.searchWrap}>
         <div className={styles.searchBar} onClick={() => navigate("/search")}>
           <img src="src/assets/search.svg" />

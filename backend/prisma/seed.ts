@@ -58,7 +58,7 @@ async function main() {
             price: 129.99, 
             sizes: ['40','41','42','43'], 
             colors: ['White','Black'], 
-            inStock: true 
+            inStock: false 
         },
         {
             name:'Onitsuka Tiger Mexico 66',
@@ -67,7 +67,8 @@ async function main() {
             price:89.90,
             sizes:['44', '45', '46', '47'],
             colors: ['Yellow', 'Red'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/onitsukatigermexico66.png'
         },
         {
             name: 'Reserved T-shirt',
@@ -76,7 +77,8 @@ async function main() {
             price:9.90,
             sizes:['S', 'M', 'L'],
             colors: ['Black'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/reservedtshirt.png'
         },
         {
             name: 'Pull&Bear Hoodie',
@@ -85,7 +87,8 @@ async function main() {
             price: 19.90,
             sizes: ['S', 'M', 'L', 'XL'],
             colors: ['Black', 'Grey'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/pullnbearhoodie.png'
         },
         {
             name: 'Zara Sweatshirt',
@@ -94,7 +97,8 @@ async function main() {
             price: 19.90,
             sizes: ['S', 'M', 'L', 'XL'],
             colors: ['Black', 'Green'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/zarasweatshirt.png'
         },
         {
             name: 'Bershka shirt',
@@ -103,7 +107,8 @@ async function main() {
             price: 29.90,
             sizes: ['S', 'M', 'L'],
             colors: ['Blue', 'Green'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/bershkashirtblue.png'
         },
         {
             name: 'Bershka Spider-Man Long Sleeve',
@@ -112,7 +117,8 @@ async function main() {
             price: 29.90,
             sizes: ['S', 'M', 'L', 'XL'],
             colors: ['Black'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/blackshirtprint.png'
         },
         {
             name: 'ACNE Studios Yoyogi 2021F Jeans',
@@ -121,7 +127,8 @@ async function main() {
             price: 299.90,
             sizes: ['S', 'M', 'L', 'XL'],
             colors: ['Black'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/acnestudiosjeans.png'
         },
         {
             name: 'Adidas Spezial',
@@ -130,7 +137,8 @@ async function main() {
             price: 79.90,
             sizes: ['40', '41', '42', '43'],
             colors: ['Grey', 'Red'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/adidasspezial.png'
         },
         {
             name: 'Nike Sports Jacket',
@@ -139,7 +147,8 @@ async function main() {
             price: 104.95,
             sizes: ['S', 'M', 'L'],
             colors: ['Black'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/nikesportsjacket.png'
         },
         {
             name: 'Adidas Performance Dres',
@@ -148,7 +157,8 @@ async function main() {
             price: 59.90,
             sizes: ['XS', 'S', 'M', 'L'],
             colors: ['Green'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/adidasperformancedres.png'
         },
         {
             name: 'Puma Sports Jacket',
@@ -157,7 +167,8 @@ async function main() {
             price: 50.90,
             sizes: ['S', 'M', 'L'],
             colors: ['Blue'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/pumasportsjacket.png'
         },
         {
             name: 'Puma Sports Sweatpants',
@@ -166,7 +177,8 @@ async function main() {
             price: 39.90,
             sizes: ['S', 'M', 'L', 'XL'],
             colors: ['Grey'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/pumasportspants.png'
         },
         {
             name: 'Nike Regular Sports Pants',
@@ -175,7 +187,8 @@ async function main() {
             price: 20.00,
             sizes: ['S', 'M', 'L'],
             colors: ['Red', 'Green'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/nikeregularsports.png'
         },
         {
             name: 'Sinsay Black Pants',
@@ -184,7 +197,8 @@ async function main() {
             price: 29.90,
             sizes: ['XS', 'S', 'M', 'L'],
             colors: ['Black'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/sinsayblackpants.png'
         },
         {
             name: 'Zara Dress Shoes',
@@ -193,7 +207,8 @@ async function main() {
             price: 49.90,
             sizes: ['37', '38', '39', '40', '41'],
             colors: ['Black'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/zaradressshoes.png'
         },
         {
             name: 'Bershka Sweatpants',
@@ -202,7 +217,8 @@ async function main() {
             price: 19.90,
             sizes: ['S', 'M', 'L', 'XL'],
             colors: ['White'],
-            inStock: true
+            inStock: true,
+            imageUrl: 'images/bershkasweatpants.png'
         }
     ]
 
@@ -218,7 +234,7 @@ async function main() {
                 description: `${product.brand} ${product.name}`,
                 price: product.price,
                 brand: product.brand,
-                imageUrl: `${product.name.replace(' ', '')}/400/400`,
+                imageUrl: product.imageUrl ?? '/images/placeholder.png',
                 sizes: product.sizes,
                 colors: product.colors,
                 inStock: product.inStock,

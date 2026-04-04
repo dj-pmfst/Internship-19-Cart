@@ -31,7 +31,7 @@ export default function Search() {
   return (
     <div className={styles.page}>
       <PageHeader />
-
+      <hr/>
       <div className={styles.searchWrap}>
         <div className={styles.searchBar}>
           <img src="src/assets/search.svg" />
