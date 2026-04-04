@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import ProductGrid from '../components/ProductGrid/ProductGrid' ///
+import ProductGrid from '../../components/ProductGrid/ProductGrid'
 import styles from './favourites.module.css'
 
 export default function Favourites() {

@@ -67,8 +67,7 @@ export default function Auth() {
     return (
         <div className={styles.container}>
             <span> 
-                <img src="/src/assets/icons/film-roll.png"/>
-                <h1 className={styles.title}>Movie Explorer</h1>
+                <img src="/src/assets/icons/Logo.svg"/>
             </span>
             <div className={styles.card}>
                 <div className={styles.toggleGroup}>

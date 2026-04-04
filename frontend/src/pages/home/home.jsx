@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import ProductCard from '../components/ProductCard'
+import ProductCard from '../../components/ProductCard/ProductCard'
 import styles from './Home.module.css'
 
 export default function Home() {
