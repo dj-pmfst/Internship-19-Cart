@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import Loader from "../../components/Loading/Loader";
 import styles from "./details.module.css";
+import { useProductDetail } from "../../hooks/useProductDetail";
 
 const API = "http://localhost:3000";
 
@@ -10,37 +11,10 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [isFav, setIsFav] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [added, setAdded] = useState(false);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    Promise.all([
-      fetch(`${API}/products/${id}`).then((r) => r.json()),
-      fetch(`${API}/categories`).then((r) => r.json()),
-      token
-        ? fetch(`${API}/favorites`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }).then((r) => r.json())
-        : Promise.resolve({ data: [] }),
-    ])
-      .then(([productJson, catsJson, favsJson]) => {
-        const p = productJson.data;
-        setProduct(p);
-        setCategories(catsJson.data || []);
-        setSelectedSize(p?.sizes?.[0] || null);
-        setSelectedColor(p?.colors?.[0] || null);
-        setIsFav(
-          (favsJson.data || []).some((f) => f.productId === parseInt(id))
-        );
-      })
-      .finally(() => setLoading(false));
-  }, [id, token]);
+  const { product, categories, isFav, setIsFav, loading } = useProductDetail(id)
 
   const toggleFav = async () => {
     if (!token) return;
