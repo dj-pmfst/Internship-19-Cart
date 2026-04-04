@@ -16,14 +16,16 @@ async function bootstrap() {
             res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         }
     });
-
-    app.use(helmet());
-
+    
     app.enableCors({
         origin: '*',
         methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
     });
+    
+    app.use(helmet({
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }));
 
     app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
     app.useGlobalInterceptors(new ResponseInterceptor());

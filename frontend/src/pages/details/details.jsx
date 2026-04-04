@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import Loader from "../../components/Loading/Loader";
@@ -15,6 +15,15 @@ export default function ProductDetail() {
   const token = localStorage.getItem("token");
 
   const { product, categories, isFav, setIsFav, loading } = useProductDetail(id)
+  const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedColor, setSelectedColor] = useState(null)
+
+  useEffect(() => {
+    if (product) {
+      setSelectedSize(product.sizes?.[0] || null)
+      setSelectedColor(product.colors?.[0] || null)
+    }
+  }, [product])
 
   const toggleFav = async () => {
     if (!token) return;

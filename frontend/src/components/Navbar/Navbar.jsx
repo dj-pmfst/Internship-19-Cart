@@ -4,7 +4,7 @@ import styles from './Navbar.module.css'
 export function Navbar() {
   return (
     <nav className={styles.navbar}>
-      <NavLink to="/" end className={({ isActive }) => isActive ? styles.active : ''}>
+      <NavLink to="/home" end className={({ isActive }) => isActive ? styles.active : ''}>
         <img src="src/assets/home.svg"/>
       </NavLink>
       <NavLink to="/search" className={({ isActive }) => isActive ? styles.active : ''}>

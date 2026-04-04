@@ -7,9 +7,10 @@ export function useProductDetail(id) {
   const [categories, setCategories] = useState([]);
   const [isFav, setIsFav] = useState(false);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     Promise.all([
       fetch(`${API}/products/${id}`).then((r) => r.json()),
       fetch(`${API}/categories`).then((r) => r.json()),
@@ -28,7 +29,7 @@ export function useProductDetail(id) {
         );
       })
       .finally(() => setLoading(false));
-  }, [id, token]);
+  }, [id]);
 
   return { product, categories, isFav, setIsFav, loading };
 }

@@ -1,122 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&family=Pacifico&display=swap');
+.page { background: var(--bg); min-height: 100vh; }
 
-
-body{
-    background-color: rgb(47, 46, 46);
-}
-
-.container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 2rem;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.title {
-    font-family: "Pacifico", cursive;
-    font-weight: 400;
-    font-style: normal;
-    color: azure;
-    font-size: 5rem;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.title p{
-    font-family: "LXGW WenKai Mono TC", monospace;
-}
+.searchWrap { padding: 1rem 1.25rem 0.5rem; }
 
 .searchBar {
-    width: 400px;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-gray);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
 }
 
-.ribbon {
-    width: 100%;
-    overflow: hidden;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    background-color: rgba(0, 0, 0, 0.619);
+.searchPlaceholder {
+  font-size: 0.95rem;
+  color: var(--text-light);
 }
 
-.ribbonTrack {
-    display: flex;
-    gap: 1rem;
-    width: max-content;
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chips::-webkit-scrollbar { display: none; }
+
+.chip {
+  flex-shrink: 0;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--chip-border);
+  background: none;
+  color: var(--brown);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
-.ribbonPoster {
-    height: 200px;
-    width: 130px;
-    object-fit: cover;
-    border-radius: 8px;
-    opacity: 0.7;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.favLink {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    color: inherit;
-    padding: 10px;
-}
-
-.star {
-    max-width: 20px;
-    height: auto;
-    filter: none !important;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.favLink:hover .star {
-    opacity: 1;
-}
-
-.favLink:hover{
-    background-color: rgb(44, 43, 43);
-    border-radius: 10px;
-    font-family: "Pacifico", cursive;
-}
-
-@media (max-width: 600px) {
-    .title { 
-        font-size: 3rem; 
-    }
-    .header { 
-        padding: 1rem; 
-    }
-    .searchBar { 
-        width: 100%; 
-    }
-    .ribbonPoster { 
-        height: 140px; width: 90px; 
-    }
+.chipActive {
+  background: var(--brown);
+  color: white;
 }
