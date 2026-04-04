@@ -7,7 +7,6 @@ export default function ProductCard({ product }) {
   return (
     <div className={styles.card} onClick={() => addToCart(product.id)}>
       <div className={styles.imageWrapper}>
-        <div className={styles.imagePlaceholder}>{product.emoji}</div>
         <button
           className={styles.favBtn}
           onClick={e => { e.stopPropagation(); toggleFav(product.id) }}
