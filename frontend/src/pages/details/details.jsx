@@ -1,87 +1,162 @@
-// import styles from './details.module.css'
-// import { useParams, useNavigate, Link } from "react-router-dom"
-// import { useDominantColor } from "../../hooks/useDominantColor"
-// import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import Loader from "../../components/Loading/Loader";
+import styles from "./details.module.css";
 
-// export default function MovieDetail() {
-//     const { id } = useParams()
-//     const navigate = useNavigate()
-//     const [movie, setMovie] = useState(null)
-//     const [isFavourite, setIsFavourite] = useState(false)
-//     const dominantColor = useDominantColor(movie?.poster)
+const API = "http://localhost:3000";
 
-//     useEffect(() => {
-//         fetch(`http://localhost:3000/movies/${id}`)
-//             .then(res => res.json())
-//             .then(data => setMovie(data))
-//     }, [id])
- 
-//     useEffect(() => {
-//         fetch("http://localhost:3000/favorites", {
-//             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-//         })
-//             .then(res => res.json())
-//             .then(data => {
-//                 if (Array.isArray(data)) {
-//                     setIsFavourite(data.some(f => f.movieId === parseInt(id)))
-//                 }
-//             })
-//     }, [id])
+export default function ProductDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const [product, setProduct] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [isFav, setIsFav] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [added, setAdded] = useState(false);
+  const token = localStorage.getItem("token");
 
-//     const toggleFavourite = async () => {
-//         if (isFavourite) {
-//             const favs = await fetch("http://localhost:3000/favorites", {
-//                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-//             }).then(r => r.json())
-//             const fav = favs.find(f => f.movieId === parseInt(id))
-//             await fetch(`http://localhost:3000/favorites/${fav.id}`, {
-//                 method: "DELETE",
-//                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-//             })
-//             setIsFavourite(false)
-//         } else {
-//             await fetch("http://localhost:3000/favorites", {
-//                 method: "POST",
-//                 headers: { 
-//                     "Content-Type": "application/json",
-//                     Authorization: `Bearer ${localStorage.getItem("token")}`
-//                 },
-//                 body: JSON.stringify({ movieId: parseInt(id) })
-//             })
-//             setIsFavourite(true)
-//         }
-//     }
+  useEffect(() => {
+    Promise.all([
+      fetch(`${API}/products/${id}`).then((r) => r.json()),
+      fetch(`${API}/categories`).then((r) => r.json()),
+      token
+        ? fetch(`${API}/favorites`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).then((r) => r.json())
+        : Promise.resolve({ data: [] }),
+    ])
+      .then(([productJson, catsJson, favsJson]) => {
+        const p = productJson.data;
+        setProduct(p);
+        setCategories(catsJson.data || []);
+        setSelectedSize(p?.sizes?.[0] || null);
+        setSelectedColor(p?.colors?.[0] || null);
+        setIsFav(
+          (favsJson.data || []).some((f) => f.productId === parseInt(id))
+        );
+      })
+      .finally(() => setLoading(false));
+  }, [id, token]);
 
-//     if (!movie) return <p>Movie not found.</p>
+  const toggleFav = async () => {
+    if (!token) return;
+    if (isFav) {
+      await fetch(`${API}/favorites/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setIsFav(false);
+    } else {
+      await fetch(`${API}/favorites/${id}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setIsFav(true);
+    }
+  };
 
-//     return (
-//         <div 
-//         className={styles.container}
-//         style={{ 
-//             background: dominantColor 
-//                 ? `linear-gradient(to bottom, ${dominantColor}, rgb(94, 94, 94))` 
-//                 : "rgb(94, 94, 94)" 
-//         }}
-//         >
-//             <header className={styles.header}>
-//                 <Link to="/home" className={styles.logoLink}>
-//                     <span>Movie Explorer <img src="/src/assets/icons/film-roll.png"/></span>
-//                 </Link>
-//             </header>
-//             <main className={styles.main}>
-//                 <button className={styles.backButton} onClick={() => navigate(-1)}>← Back</button>
-//                 <div className={styles.content }>
-//                     <img src={movie.poster} alt={movie.title} className={styles.poster} />
-//                     <div className={styles.info}>
-//                         <h1>{movie.title}</h1>
-//                         <p className={styles.meta}>{movie.year} • {movie.genres?.map(g => g.name).join(', ')} • {movie.rating} ⭐</p>
-//                         <p className={styles.description}>{movie.description}</p>
-//                         <button className={styles.favButton} onClick={toggleFavourite}>
-//                             {isFavourite ? "Remove from Favourites" : "Add to Favourites"}
-//                         </button>
-//                     </div>
-//                 </div>
-//             </main>
-//         </div>
-//     )
-// }
+  const handleAdd = () => {
+    addToCart(product, selectedSize, selectedColor);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  };
+
+  if (loading) return <Loader />;
+  if (!product)
+    return <div className={styles.notFound}>Proizvod nije pronaden.</div>;
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.chipsRow}>
+        {categories.map((c) => (
+          <button
+            key={c.id}
+            className={`${styles.chip} ${
+              product.category?.name === c.name ? styles.chipActive : ""
+            }`}
+            onClick={() => navigate(`/home`)}>
+            {c.name}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.imageWrap}>
+        {product.imageUrl ? (
+          <img
+            src={`${API}/${product.imageUrl}`}
+            alt={product.name}
+            className={styles.image}
+          />
+        ) : (
+          <div className={styles.placeholder}></div>
+        )}
+      </div>
+
+      <div className={styles.info}>
+        <h1 className={styles.name}>{product.name.toUpperCase()}</h1>
+        <p className={styles.price}>{product.price.toFixed(2)} €</p>
+
+        {product.colors?.length > 0 && (
+          <div className={styles.colors}>
+            {product.colors.map((c) => (
+              <button
+                key={c}
+                className={`${styles.colorBtn} ${
+                  selectedColor === c ? styles.colorActive : ""
+                }`}
+                style={{ background: c }}
+                onClick={() => setSelectedColor(c)}
+              />
+            ))}
+          </div>
+        )}
+
+        {product.sizes?.length > 0 && (
+          <>
+            <p className={styles.sizeLabel}>Izaberi veličinu:</p>
+            <div className={styles.sizeGrid}>
+              {product.sizes.map((s) => (
+                <button
+                  key={s}
+                  className={`${styles.sizeBtn} ${
+                    selectedSize === s ? styles.sizeBtnActive : ""
+                  }`}
+                  onClick={() => setSelectedSize(s)}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className={styles.actions}>
+          <button
+            className={`${styles.addBtn} ${added ? styles.addedBtn : ""}`}
+            onClick={handleAdd}>
+            {added ? "DODANO" : "DODAJ U KOŠARICU"}
+          </button>
+          <button
+            className={`${styles.heartBtn} ${isFav ? styles.heartActive : ""}`}
+            onClick={toggleFav}
+            aria-label="Toggle favourite">
+            <img src="src/assets/heart.svg" />
+          </button>
+        </div>
+
+        <div className={styles.filterRow}>
+          <button className={styles.filterBtn} onClick={() => navigate(-1)}>
+            <img src="src/assets/filter.svg" />
+          </button>
+        </div>
+      </div>
+
+      <button className={styles.closeBtn} onClick={() => navigate(-1)}>
+        x
+      </button>
+    </div>
+  );
+}
