@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./auth.module.css";
 
+const API = 'http://localhost:3000'
+
 export default function Auth() {
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
@@ -38,7 +40,7 @@ export default function Auth() {
     setLoading(true);
     try {
       const endpoint = tab === "login" ? "login" : "register";
-      const res = await fetch(`http://localhost:3000/user/${endpoint}`, {
+      const res = await fetch(`${API}/auth/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

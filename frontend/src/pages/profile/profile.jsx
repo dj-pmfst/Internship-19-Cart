@@ -3,38 +3,21 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { PageHeader } from "../../components/PageHeader/PageHeader";
 import Loader from "../../components/Loading/Loader";
 import styles from "./profile.module.css";
-
-const API = "http://localhost:3000";
+import { useProfile } from "../../hooks/useProfile";
 
 export default function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-  const [address, setAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [saving, setSaving] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(
     location.state?.orderSuccess || false
   );
-  const token = localStorage.getItem("token");
+
+  const { user, address, setAddress, paymentMethod, setPaymentMethod, loading, saving, save } = useProfile()
 
   useEffect(() => {
-    if (!token) {
-      navigate("/");
-      return;
-    }
-    fetch(`${API}/users/me`, { headers: { Authorization: `Bearer ${token}` } })
-      .then((r) => r.json())
-      .then((json) => {
-        const u = json.data;
-        setUser(u);
-        setAddress(u?.address || "");
-        setPaymentMethod(u?.paymentMethod || "");
-      })
-      .finally(() => setLoading(false));
-  }, [token]);
+    if (!localStorage.getItem('token')) navigate('/')
+  }, [])
 
   useEffect(() => {
     if (orderSuccess) {
@@ -44,20 +27,9 @@ export default function Profile() {
   }, [orderSuccess]);
 
   const handleSave = async () => {
-    setSaving(true);
-    const res = await fetch(`${API}/users/me`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ address, paymentMethod }),
-    });
-    const json = await res.json();
-    setUser(json.data);
-    setSaving(false);
-    setEditing(false);
-  };
+    await save()
+    setEditing(false)
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -67,7 +39,7 @@ export default function Profile() {
   if (loading) return <Loader />;
 
   const [iban, expiry, cvv] = (user?.paymentMethod || "").split("|");
-
+  
   return (
     <div className={styles.page}>
       <PageHeader />
@@ -175,7 +147,6 @@ export default function Profile() {
             </div>
           )}
         </div>
-
         <button className={styles.logoutBtn} onClick={handleLogout}>
           Odjava
         </button>
