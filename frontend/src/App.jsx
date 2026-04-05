@@ -10,7 +10,9 @@ import Favourites from './pages/favourites/favourites'
 import Cart from './pages/cart/cart'
 import Checkout from './pages/checkout/checkout'
 import Profile from './pages/profile/profile'
+import Confirmation from './pages/confirmation/confirmation'
 import NotFound from './pages/error/error'
+import Notifications from './components/notifications/notifications'
 import { ROUTES } from './routes/routes'
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
           <Route path={ROUTES.CART} element={<Cart />} />
           <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
           <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path={ROUTES.CONFIRIMATION} element={<Confirmation/>}/>
+          <Route path={ROUTES.NOTIFICATIONS} element={<Notifications/>}/>
           <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
         </Routes>
       </Layout>

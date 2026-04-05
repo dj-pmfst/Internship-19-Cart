@@ -60,7 +60,7 @@ export default function Checkout() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.message || "Order failed");
       clearCart();
-      navigate("/profile", { state: { orderSuccess: true } });
+      navigate('/confirmation', { state: { orderSuccess: true } });
     } catch (err) {
       setError(err.message);
     } finally {

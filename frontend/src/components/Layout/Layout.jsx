@@ -2,11 +2,11 @@ import { useLocation } from 'react-router-dom'
 import { Navbar } from '../Navbar/Navbar'
 import styles from './Layout.module.css'
 
-const NO_NAVBAR = ['/', '/welcome']
+const HAS_NAVBAR = ['/home', '/search', '/cart', '/profile', '/favourites', '/checkout', '/products', '/notifications']
 
 export function Layout({ children }) {
   const { pathname } = useLocation()
-  const showNavbar = !NO_NAVBAR.includes(pathname)
+  const showNavbar = HAS_NAVBAR.some(path => pathname.startsWith(path))
 
   return (
     <div className={styles.container}>

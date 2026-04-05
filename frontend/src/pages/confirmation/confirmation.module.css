@@ -34,15 +34,9 @@
     letter-spacing: 0.05em;
   }
   
-  .notice hr {
-    width: 100%;
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
-    margin: 0;
-  }
-  
   .noticeContent {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;

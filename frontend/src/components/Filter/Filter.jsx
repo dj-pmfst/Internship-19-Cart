@@ -14,7 +14,7 @@ export default function FilterDrawer({ open, onClose, selectedColors, onToggleCo
         <div className={styles.header}>
           <span className={styles.title}>Filter</span>
           <button className={styles.closeBtn} onClick={onClose}>
-            <img src='src/assets/filter.svg'/>
+            x
           </button>
         </div>
 

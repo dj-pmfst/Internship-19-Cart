@@ -34,3 +34,11 @@
   color: var(--brown);
   text-decoration: none;
 }
+
+.notifBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
