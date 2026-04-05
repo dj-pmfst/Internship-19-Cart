@@ -243,6 +243,8 @@ async function main() {
         })
     }
 
+    
+
     console.log('Seeding complete')
     console.log('Admin: admin@mail.com / admin123')
     console.log('User:  user@mail.com / user123')
