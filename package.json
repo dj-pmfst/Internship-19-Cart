@@ -1,0 +1,16 @@
+{
+  "name": "cart",
+  "private": true,
+  "packageManager": "npm@11.6.2",
+  "workspaces": [
+    "frontend",
+    "admin",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "turbo run dev start:dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  }
+}
