@@ -1,0 +1,20 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  padding: 36px;
+  width: 360px;
+  box-shadow: 0 2px 8px rgb(234, 224, 224);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #3d1f0f;
+}
