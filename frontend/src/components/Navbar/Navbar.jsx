@@ -10,7 +10,7 @@ export function Navbar() {
       <NavLink to="/search" className={({ isActive }) => isActive ? styles.active : ''}>
         <img src="src/assets/search.svg"/>
       </NavLink>
-      <NavLink to="/favorites" className={({ isActive }) => isActive ? styles.active : ''}>
+      <NavLink to="/favourites" className={({ isActive }) => isActive ? styles.active : ''}>
         <img src="src/assets/heart.svg"/>
       </NavLink>
       <NavLink to="/cart" className={({ isActive }) => isActive ? styles.active : ''}>

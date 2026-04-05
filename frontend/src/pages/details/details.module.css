@@ -108,14 +108,14 @@
   border-radius: 30px;
   border: 1.5px solid var(--chip-border);
   background: none;
-  color: var(--brown);
+  color: var(--brown-btn);
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s;
 }
 
 .sizeBtnActive {
-  background: var(--brown);
+  background: var(--brown-btn);
   color: white;
 }
 
@@ -181,12 +181,17 @@
 }
 
 .closeBtn {
+  color: white;
+  font-weight: 700;
+  font-size: large;
   position: fixed;
   bottom: calc(var(--navbar-h) + 1rem);
   left: 50%;
   transform: translateX(-50%);
-  background: none;
-  border: none;
+  background: var(--brown-btn);
+  border: 2px var(--brown-btn);
+  border-radius: 50px;
+  padding: 0.5rem;
   z-index: 10;
 }
 

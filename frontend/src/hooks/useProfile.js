@@ -11,7 +11,10 @@ export function useProfile() {
   const token = localStorage.getItem('token')
 
   useEffect(() => {
-    if (!token) return
+    if (!token) {
+      setLoading(false)
+      return
+    }
     fetch(`${API}/users/me`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(json => {

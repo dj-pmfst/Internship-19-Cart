@@ -1,1 +1,253 @@
- 
+.page {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  padding: 1.25rem 1.25rem 0.5rem;
+  color: var(--text);
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.delivery {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.deliveryTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.deliverySubtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.deliveryDate {
+  background: var(--bg-gray);
+  border-radius: 20px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.itemList {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-gray);
+  border-radius: 12px;
+}
+
+.itemImg {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  flex-shrink: 0;
+}
+
+.itemImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.imgPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.itemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.itemName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+.itemPrice {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qty button {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 16px;
+  text-align: center;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.removeBtn:hover {
+  color: #c0392b;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem;
+}
+
+.emptyText {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.shopBtn {
+  padding: 0.7rem 1.75rem;
+  background: var(--brown);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.footer {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.totalRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.totalLabel {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.totalVat {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.totalAmount {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.checkoutBtn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--brown-btn);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.checkoutBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+.checkoutBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

@@ -12,6 +12,7 @@ export default function Cart() {
   return (
     <div className={styles.page}>
       <PageHeader />
+      <hr/>
       <h1 className={styles.title}>Košarica</h1>
 
       <div className={styles.notice}>
