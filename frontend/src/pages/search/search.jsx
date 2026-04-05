@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { PageHeader } from "../../components/PageHeader/PageHeader";
 import ProductGrid from "../../components/ProductGrid/ProductGrid";
 import Loader from "../../components/Loading/Loader";
+import Filter from "../../components/Filter/Filter";
 import { useSearchProducts } from "../../hooks/useSearchProducts";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import styles from "./search.module.css";
@@ -12,6 +13,8 @@ export default function Search() {
   const [query, setQuery] = useState("");
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedColors, setSelectedColors] = useState([]);
 
   const { products, hasMore, loading, searched, search, loadMore, reset } =
     useSearchProducts();
@@ -28,13 +31,40 @@ export default function Search() {
     search(query, cat);
   };
 
+  const toggleColor = (color) => {
+    if (color === null) {
+      setSelectedColors([]);
+      return;
+    }
+    setSelectedColors((prev) =>
+      prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]
+    );
+  };
+
+  const filteredProducts =
+  selectedColors.length > 0
+    ? products.filter((p) =>
+        p.colors?.some((c) =>
+          selectedColors.includes(c.toLowerCase())  
+        )
+      )
+    : products;
+
   return (
     <div className={styles.page}>
       <PageHeader />
-      <hr/>
+
       <div className={styles.searchWrap}>
         <div className={styles.searchBar}>
-          <img src="src/assets/search.svg" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="#aaa" strokeWidth="1.8" />
+            <path
+              d="M16.5 16.5L21 21"
+              stroke="#aaa"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+          </svg>
           <input
             className={styles.input}
             value={query}
@@ -79,21 +109,38 @@ export default function Search() {
 
       {loading && products.length === 0 && <Loader />}
 
-      {!loading && searched && products.length === 0 && (
+      {!loading && searched && filteredProducts.length === 0 && (
         <div className={styles.empty}>
           <p>No results found</p>
         </div>
       )}
 
-      {products.length > 0 && (
+      {filteredProducts.length > 0 && (
         <ProductGrid
-          products={products}
+          products={filteredProducts}
           hasMore={hasMore}
           loading={loading}
           sentinelRef={sentinelRef}
           onToggleFav={() => {}}
+          variant="detailed"
         />
       )}
+
+      <button className={styles.filterBtn} onClick={() => setFilterOpen(true)}>
+        <img src="src/assets/filter.svg" />
+        Filter
+        {selectedColors.length > 0 && (
+          <span className={styles.filterBadge}>{selectedColors.length}</span>
+        )}
+      </button>
+
+      <Filter
+        open={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        selectedColors={selectedColors}
+        onToggleColor={toggleColor}
+        onApply={() => search(query, activeCategory)}
+      />
     </div>
   );
 }
