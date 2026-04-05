@@ -7,8 +7,28 @@ function getCartKey(userId) {
 }
 
 export function CartProvider({ children }) {
-  const [userId, setUserId] = useState(null);
-  const [items, setItems] = useState([]);
+  const [userId, setUserId] = useState(() => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) return null
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      return payload.id
+    } catch {
+      return null
+    }
+  })
+  
+  const [items, setItems] = useState(() => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) return []
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      const stored = localStorage.getItem(`cart_${payload.id}`)
+      return stored ? JSON.parse(stored) : []
+    } catch {
+      return []
+    }
+  })
 
   const initCart = (uid) => {
     setUserId(uid);
