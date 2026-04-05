@@ -1,8 +1,7 @@
 import styles from "./confirmation.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Confirmation() {
-  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>

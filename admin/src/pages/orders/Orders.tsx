@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../component/navbar";
-
-const API = "http://localhost:3000";
-const authHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-  "Content-Type": "application/json",
-});
+import { api } from "../../utils/api";
+import { useFetch } from "../../hooks/useFetch";
+import { useFormState } from "../../hooks/useFormState";
+import styles from "./Orders.module.css";
 
 const STATUSES = ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED"];
 
@@ -17,62 +15,39 @@ const statusBadge: Record<string, string> = {
 };
 
 export default function Orders() {
-  const [orders, setOrders] = useState<any[]>([]);
+  const { data, loading, reload } = useFetch<any[]>("/orders");
+  const { error, success, setSuccess, run } = useFormState();
   const [statusFilter, setStatusFilter] = useState("");
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = () => {
-    setLoading(true);
-    fetch(`${API}/orders`, { headers: authHeaders() })
-      .then((r) => r.json())
-      .then((d) => setOrders(d.data || []))
-      .finally(() => setLoading(false));
-  };
-
-  const handleStatusChange = async (orderId: number, status: string) => {
-    setError("");
-    setSuccess("");
-    try {
-      const res = await fetch(`${API}/orders/${orderId}/status`, {
-        method: "PATCH",
-        headers: authHeaders(),
-        body: JSON.stringify({ status }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || "Failed");
-      setOrders((prev) =>
-        prev.map((o) => (o.id === orderId ? { ...o, status } : o))
-      );
-      setSuccess(`Order #${orderId} status updated to ${status}`);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
-
+  const orders = data || [];
   const filtered = statusFilter
     ? orders.filter((o) => o.status === statusFilter)
     : orders;
 
+  const handleStatusChange = (orderId: number, status: string) => {
+    run(async () => {
+      await api.patch(`/orders/${orderId}/status`, { status });
+      setSuccess(`Order #${orderId} updated to ${status}`);
+      reload();
+    });
+  };
+
+  const toggleExpand = (id: number) =>
+    setExpandedId((prev) => (prev === id ? null : id));
+
   return (
     <div className="page">
       <Navbar />
-
       <div className="page-header">
         <h1 className="page-title">Orders</h1>
-        <span style={{ color: "#888" }}>{filtered.length} orders</span>
+        <span className={styles.orderCount}>{filtered.length} orders</span>
       </div>
 
       {error && <div className="error">{error}</div>}
       {success && <div className="success">{success}</div>}
 
-      <div className="filters" style={{ marginBottom: 16 }}>
+      <div className={styles.filterRow}>
         <div className="chip-group">
           <button
             className={`chip ${!statusFilter ? "chip-active" : ""}`}
@@ -95,34 +70,41 @@ export default function Orders() {
       ) : (
         <div className="table-wrap">
           <table>
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Update Status</th>
+              </tr>
+            </thead>
             <tbody>
               {filtered.map((order) => (
-                <React.Fragment key={order.id}>
+                <>
                   <tr
-                    style={{ cursor: "pointer" }}
-                    onClick={() =>
-                      setExpandedId(expandedId === order.id ? null : order.id)
-                    }>
-                    <td style={{ fontWeight: 600 }}>#{order.id}</td>
-                    <td>{order.user?.email}</td>
-                    <td style={{ color: "#888" }}>
-                      {order.items?.length} item(s)
+                    key={order.id}
+                    className={styles.clickableRow}
+                    onClick={() => toggleExpand(order.id)}>
+                    <td>
+                      <strong>#{order.id}</strong>
                     </td>
-                    <td style={{ fontWeight: 600 }}>
-                      €{order.total?.toFixed(2)}
+                    <td>{order.user?.email}</td>
+                    <td>{order.items?.length} item(s)</td>
+                    <td>
+                      <strong>${order.total?.toFixed(2)}</strong>
                     </td>
                     <td>
                       <span className={`badge ${statusBadge[order.status]}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td style={{ color: "#888" }}>
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </td>
+                    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                     <td onClick={(e) => e.stopPropagation()}>
                       <select
-                        className="select"
-                        style={{ width: 130 }}
+                        className={`select ${styles.statusSelect}`}
                         value={order.status}
                         onChange={(e) =>
                           handleStatusChange(order.id, e.target.value)
@@ -135,79 +117,41 @@ export default function Orders() {
                       </select>
                     </td>
                   </tr>
+
                   {expandedId === order.id && (
-                    <tr>
-                      <td
-                        colSpan={7}
-                        style={{ background: "#fafafa", padding: "16px 20px" }}>
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
-                            gap: 24,
-                          }}>
+                    <tr
+                      key={`${order.id}-detail`}
+                      className={styles.expandedRow}>
+                      <td colSpan={7}>
+                        <div className={styles.expandedGrid}>
                           <div>
-                            <p style={{ fontWeight: 600, marginBottom: 8 }}>
-                              Items
-                            </p>
+                            <p className={styles.expandedTitle}>Items</p>
                             {order.items?.map((item: any) => (
-                              <div
-                                key={item.id}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  padding: "4px 0",
-                                  borderBottom: "1px solid #f0f0f0",
-                                }}>
+                              <div key={item.id} className={styles.orderItem}>
                                 <span>
-                                  {item.product?.name}{" "}
-                                  {item.size ? `(${item.size})` : ""} ×{" "}
+                                  {item.product?.name}
+                                  {item.size ? ` (${item.size})` : ""} ×{" "}
                                   {item.quantity}
                                 </span>
-                                <span style={{ color: "#888" }}>
-                                  €{(item.price * item.quantity).toFixed(2)}
+                                <span className={styles.orderItemPrice}>
+                                  ${(item.price * item.quantity).toFixed(2)}
                                 </span>
                               </div>
                             ))}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                marginTop: 8,
-                                fontWeight: 600,
-                              }}>
+                            <div className={styles.orderTotal}>
                               <span>Total</span>
-                              <span>€{order.total?.toFixed(2)}</span>
+                              <span>${order.total?.toFixed(2)}</span>
                             </div>
                           </div>
                           <div>
-                            <p style={{ fontWeight: 600, marginBottom: 8 }}>
-                              Shipping
-                            </p>
-                            <p
-                              style={{
-                                color: "#555",
-                                fontSize: 13,
-                                lineHeight: 1.6,
-                              }}>
+                            <p className={styles.expandedTitle}>Shipping</p>
+                            <p className={styles.address}>
                               {order.shippingAddress}
                             </p>
                             {order.billingAddress !== order.shippingAddress && (
                               <>
-                                <p
-                                  style={{
-                                    fontWeight: 600,
-                                    marginBottom: 4,
-                                    marginTop: 12,
-                                  }}>
-                                  Billing
-                                </p>
-                                <p
-                                  style={{
-                                    color: "#555",
-                                    fontSize: 13,
-                                    lineHeight: 1.6,
-                                  }}>
+                                <p className={styles.billingTitle}>Billing</p>
+                                <p className={styles.address}>
                                   {order.billingAddress}
                                 </p>
                               </>
@@ -217,7 +161,7 @@ export default function Orders() {
                       </td>
                     </tr>
                   )}
-                </React.Fragment>
+                </>
               ))}
             </tbody>
           </table>

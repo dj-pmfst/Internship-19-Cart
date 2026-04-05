@@ -1,76 +1,47 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../component/navbar";
-
-const API = "http://localhost:3000";
-const authHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-  "Content-Type": "application/json",
-});
+import { api } from "../../utils/api";
+import { useFetch } from "../../hooks/useFetch";
+import { useFormState } from "../../hooks/useFormState";
+import styles from "./Categories.module.css";
 
 export default function Categories() {
-  const [categories, setCategories] = useState<any[]>([]);
+  const { data, loading, reload } = useFetch<any[]>("/categories");
+  const { error, success, setSuccess, loading: saving, run } = useFormState();
   const [newName, setNewName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const categories = data || [];
 
-  const fetchCategories = () => {
-    fetch(`${API}/categories`)
-      .then((r) => r.json())
-      .then((d) => setCategories(d.data || []));
-  };
-
-  const handleCreate = async (e: React.FormEvent) => {
+  const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName.trim()) return;
-    setError("");
-    setSuccess("");
-    setLoading(true);
-    try {
-      const res = await fetch(`${API}/categories`, {
-        method: "POST",
-        headers: authHeaders(),
-        body: JSON.stringify({ name: newName.trim() }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || "Failed");
+    run(async () => {
+      await api.post("/categories", { name: newName.trim() });
       setSuccess("Category created!");
       setNewName("");
-      fetchCategories();
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+      reload();
+    });
   };
 
-  const handleDelete = async (cat: any) => {
-    const productCount = cat.products?.length ?? 0;
-    if (productCount > 0) {
+  const handleDelete = (cat: any) => {
+    const count = cat.products?.length ?? 0;
+    if (count > 0) {
       alert(
-        `Cannot delete "${cat.name}" — it has ${productCount} product(s) assigned to it.Reassign or delete those products first.`
+        `Cannot delete "${cat.name}" — it has ${count} product(s). Reassign or delete those first.`
       );
       return;
     }
     if (!window.confirm(`Delete "${cat.name}"?`)) return;
-    const res = await fetch(`${API}/categories/${cat.id}`, {
-      method: "DELETE",
-      headers: authHeaders(),
+    run(async () => {
+      await api.delete(`/categories/${cat.id}`);
+      setSuccess("Category deleted.");
+      reload();
     });
-    if (res.ok) {
-      setCategories((prev) => prev.filter((c) => c.id !== cat.id));
-      setSuccess("Category deleted");
-    }
   };
 
   return (
     <div className="page">
       <Navbar />
-
       <div className="page-header">
         <h1 className="page-title">Categories</h1>
       </div>
@@ -79,10 +50,9 @@ export default function Categories() {
         <h3 style={{ marginBottom: 14, fontSize: 16 }}>New Category</h3>
         {error && <div className="error">{error}</div>}
         {success && <div className="success">{success}</div>}
-        <form
-          onSubmit={handleCreate}
-          style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
-          <div className="field" style={{ flex: 1, maxWidth: 300 }}>
+
+        <form onSubmit={handleCreate} className={styles.createForm}>
+          <div className={`field ${styles.nameField}`}>
             <label className="label">Category Name *</label>
             <input
               className="input"
@@ -94,41 +64,47 @@ export default function Categories() {
           </div>
           <button
             className="btn btn-primary"
-            disabled={loading || !newName.trim()}>
-            {loading ? "Creating..." : "+ Create"}
+            disabled={saving || !newName.trim()}>
+            {saving ? "Creating..." : "+ Create"}
           </button>
         </form>
       </div>
 
-      <div className="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Products</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map((cat) => (
-              <tr key={cat.id}>
-                <td style={{ fontWeight: 500 }}>{cat.name}</td>
-                <td style={{ color: "#888" }}>{cat.products?.length ?? 0}</td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(cat)}>
-                    Delete
-                  </button>
-                </td>
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Products</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {categories.length === 0 && (
-          <div className="empty">No categories yet</div>
-        )}
-      </div>
+            </thead>
+            <tbody>
+              {categories.map((cat: any) => (
+                <tr key={cat.id}>
+                  <td>
+                    <strong>{cat.name}</strong>
+                  </td>
+                  <td>{cat.products?.length ?? 0}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(cat)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {categories.length === 0 && (
+            <div className="empty">No categories yet</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

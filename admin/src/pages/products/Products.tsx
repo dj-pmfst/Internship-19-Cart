@@ -1,147 +1,47 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../../component/navbar";
-
-const API = "http://localhost:3000";
-const authHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-  "Content-Type": "application/json",
-});
-
-const emptyForm = {
-  name: "",
-  description: "",
-  price: "",
-  brand: "",
-  categoryId: "",
-  sizes: "",
-  colors: "",
-  inStock: true,
-  imageUrl: "",
-};
+import { api, API } from "../../utils/api";
+import { useFetch } from "../../hooks/useFetch";
+import { useFormState } from "../../hooks/useFormState";
+import { useProductForm } from "../../hooks/useProductForm";
+import styles from "./Products.module.css";
 
 export default function Products() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [form, setForm] = useState(emptyForm);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const { data, loading, reload } = useFetch<{ products: any[] }>(
+    "/products?limit=100"
+  );
+  const { data: categoriesData } = useFetch<any[]>("/categories");
+  const {
+    success: deleteSuccess,
+    setSuccess: setDeleteSuccess,
+    run: runDelete,
+  } = useFormState();
+
+  const products = data?.products || [];
+  const categories = categoriesData || [];
+
   const [search, setSearch] = useState("");
   const [catFilter, setCatFilter] = useState("");
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, []);
+  const {
+    form,
+    editingId,
+    handleChange,
+    handleSubmit,
+    handleEdit,
+    handleCancel,
+    error,
+    success,
+    loading: saving,
+  } = useProductForm(reload);
 
-  const fetchProducts = () => {
-    fetch(`${API}/products?limit=100`, { headers: authHeaders() })
-      .then((r) => r.json())
-      .then((d) => setProducts(d.data?.products || []));
-  };
-
-  const fetchCategories = () => {
-    fetch(`${API}/categories`)
-      .then((r) => r.json())
-      .then((d) => setCategories(d.data || []));
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value, type } = e.target;
-    setForm((f) => ({
-      ...f,
-      [name]:
-        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-    setLoading(true);
-    try {
-      const body = {
-        name: form.name,
-        description: form.description,
-        price: parseFloat(form.price),
-        brand: form.brand,
-        categoryId: parseInt(form.categoryId),
-        sizes: form.sizes
-          ? form.sizes
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
-          : [],
-        colors: form.colors
-          ? form.colors
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
-          : [],
-        inStock: form.inStock,
-        ...(form.imageUrl ? { imageUrl: [form.imageUrl] } : {}),
-      };
-      const url = editingId
-        ? `${API}/products/${editingId}`
-        : `${API}/products`;
-      const method = editingId ? "PATCH" : "POST";
-      const res = await fetch(url, {
-        method,
-        headers: authHeaders(),
-        body: JSON.stringify(body),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || "Failed");
-
-      setSuccess(editingId ? "Product updated" : "Product created");
-      setForm(emptyForm);
-      setEditingId(null);
-      fetchProducts();
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleEdit = (p: any) => {
-    setEditingId(p.id);
-    setForm({
-      name: p.name,
-      description: p.description,
-      price: p.price,
-      brand: p.brand,
-      categoryId: p.categoryId || p.category?.id,
-      sizes: p.sizes?.join(", ") || "",
-      colors: p.colors?.join(", ") || "",
-      inStock: p.inStock,
-      imageUrl: p.imageUrl?.[0] || "",
-    });
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleCancel = () => {
-    setForm(emptyForm);
-    setEditingId(null);
-    setError("");
-    setSuccess("");
-  };
-  const handleDelete = async (id: number, name: string) => {
+  const handleDelete = (id: number, name: string) => {
     if (!window.confirm(`Delete "${name}"?`)) return;
-    const res = await fetch(`${API}/products/${id}`, {
-      method: "DELETE",
-      headers: authHeaders(),
+    runDelete(async () => {
+      await api.delete(`/products/${id}`);
+      setDeleteSuccess("Product deleted");
+      reload();
     });
-    if (res.ok) {
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-      setSuccess("Product deleted.");
-    }
   };
 
   const filtered = products.filter((p) => {
@@ -157,7 +57,6 @@ export default function Products() {
   return (
     <div className="page">
       <Navbar />
-
       <div className="page-header">
         <h1 className="page-title">Products</h1>
       </div>
@@ -167,7 +66,9 @@ export default function Products() {
           {editingId ? "Edit Product" : "Add New Product"}
         </h3>
         {error && <div className="error">{error}</div>}
-        {success && <div className="success">{success}</div>}
+        {(success || deleteSuccess) && (
+          <div className="success">{success || deleteSuccess}</div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-grid">
@@ -213,7 +114,7 @@ export default function Products() {
                 onChange={handleChange}
                 required>
                 <option value="">Select category</option>
-                {categories.map((c) => (
+                {categories.map((c: any) => (
                   <option key={c.id} value={c.id}>
                     {c.name}
                   </option>
@@ -232,7 +133,7 @@ export default function Products() {
               />
             </div>
             <div className="field">
-              <label className="label">Sizes (coma separated)</label>
+              <label className="label">Sizes (comma separated)</label>
               <input
                 className="input"
                 name="sizes"
@@ -252,31 +153,24 @@ export default function Products() {
               />
             </div>
             <div className="field">
-              <label className="label">Image</label>
+              <label className="label">Image URL</label>
               <input
                 className="input"
                 name="imageUrl"
-                placeholder="url"
+                placeholder="images/filename.png"
                 value={form.imageUrl}
                 onChange={handleChange}
               />
               {form.imageUrl && (
                 <img
                   src={`${API}/${form.imageUrl}`}
-                  style={{ marginTop: 8, height: 80, objectFit: "contain" }}
+                  className={styles.imagePreview}
                   alt="preview"
                 />
               )}
             </div>
-            <div className="field" style={{ justifyContent: "flex-end" }}>
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  cursor: "pointer",
-                  marginTop: "auto",
-                }}>
+            <div className={`field ${styles.inStockField}`}>
+              <label className={styles.inStockLabel}>
                 <input
                   type="checkbox"
                   name="inStock"
@@ -289,11 +183,8 @@ export default function Products() {
           </div>
 
           <div className="form-actions">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={loading}>
-              {loading
+            <button type="submit" className="btn btn-primary" disabled={saving}>
+              {saving
                 ? "Saving..."
                 : editingId
                 ? "Update Product"
@@ -323,7 +214,7 @@ export default function Products() {
           value={catFilter}
           onChange={(e) => setCatFilter(e.target.value)}>
           <option value="">All categories</option>
-          {categories.map((c) => (
+          {categories.map((c: any) => (
             <option key={c.id} value={c.name}>
               {c.name}
             </option>
@@ -331,59 +222,75 @@ export default function Products() {
         </select>
       </div>
 
-      <div className="table-wrap">
-        <table>
-          <tbody>
-            {filtered.map((p) => (
-              <tr key={p.id}>
-                <td>
-                  {p.imageUrl ? (
-                    <img
-                      className="thumb"
-                      src={`${API}/${
-                        Array.isArray(p.imageUrl) ? p.imageUrl[0] : p.imageUrl
-                      }`}
-                      alt={p.name}
-                    />
-                  ) : (
-                    <span>—</span>
-                  )}
-                </td>
-                <td style={{ fontWeight: 500 }}>{p.name}</td>
-                <td>{p.brand}</td>
-                <td>{p.category?.name}</td>
-                <td>${p.price.toFixed(2)}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      p.inStock ? "badge-delivered" : "badge-pending"
-                    }`}>
-                    {p.inStock ? "In stock" : "Out"}
-                  </span>
-                </td>
-                <td style={{ color: "#888" }}>{p.sizes?.join(", ") || "—"}</td>
-                <td>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <button
-                      className="btn btn-ghost btn-sm"
-                      onClick={() => handleEdit(p)}>
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(p.id, p.name)}>
-                      Delete
-                    </button>
-                  </div>
-                </td>
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Sizes</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {filtered.length === 0 && (
-          <div className="empty">No products found</div>
-        )}
-      </div>
+            </thead>
+            <tbody>
+              {filtered.map((p) => (
+                <tr key={p.id}>
+                  <td>
+                    {p.imageUrl?.length > 0 ? (
+                      <img
+                        className="thumb"
+                        src={`${API}/${p.imageUrl[0]}`}
+                        alt={p.name}
+                      />
+                    ) : (
+                      <span>—</span>
+                    )}
+                  </td>
+                  <td>
+                    <strong>{p.name}</strong>
+                  </td>
+                  <td>{p.brand}</td>
+                  <td>{p.category?.name}</td>
+                  <td>${p.price.toFixed(2)}</td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        p.inStock ? "badge-delivered" : "badge-pending"
+                      }`}>
+                      {p.inStock ? "In stock" : "Out"}
+                    </span>
+                  </td>
+                  <td className={styles.count}>{p.sizes?.join(", ") || "—"}</td>
+                  <td>
+                    <div className={styles.actions}>
+                      <button
+                        className="btn btn-ghost btn-sm"
+                        onClick={() => handleEdit(p)}>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDelete(p.id, p.name)}>
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {filtered.length === 0 && (
+            <div className="empty">No products found</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
