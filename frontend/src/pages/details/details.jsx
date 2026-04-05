@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
-import Loader from "../../components/Loading/Loader";
+import { useCart } from "src/context/CartContext";
+import Loader from "src/components/Loading/Loader";
 import styles from "./details.module.css";
-import { useProductDetail } from "../../hooks/useProductDetail";
+import { useProductDetail } from "src/hooks/useProductDetail";
 
 const API = "http://localhost:3000";
 

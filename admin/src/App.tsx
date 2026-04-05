@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/login/login'
+import Login from './pages/login/Login'
 import Products from './pages/products/Products'
 import Categories from './pages/categories/Categories'
 import Orders from './pages/orders/Orders'

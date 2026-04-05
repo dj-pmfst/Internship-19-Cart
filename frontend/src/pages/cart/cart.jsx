@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
-import { PageHeader } from "../../components/PageHeader/PageHeader";
+import { useCart } from "src/context/CartContext";
+import { PageHeader } from "src/components/PageHeader/PageHeader";
 import styles from "./cart.module.css";
 
 const API = "http://localhost:3000";

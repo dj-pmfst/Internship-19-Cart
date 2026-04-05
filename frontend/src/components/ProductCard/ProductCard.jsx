@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { productDetailPath } from "../../routes/routes";
+import { productDetailPath } from "src/routes/routes";
 import styles from "./ProductCard.module.css";
 
 const API = "http://localhost:3000";

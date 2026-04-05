@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styles from './Filter.module.css'
-import { COLORS } from '../../enum/colors'
+import { COLORS } from 'src/enum/colors'
 
 export default function FilterDrawer({ open, onClose, selectedColors, onToggleColor, onApply }) {
   const [colorOpen, setColorOpen] = useState(true)

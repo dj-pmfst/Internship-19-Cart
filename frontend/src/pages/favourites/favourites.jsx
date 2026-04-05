@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { PageHeader } from "../../components/PageHeader/PageHeader";
-import ProductCard from "../../components/ProductCard/ProductCard";
-import Loader from "../../components/Loading/Loader";
+import { PageHeader } from "src/components/PageHeader/PageHeader";
+import ProductCard from "src/components/ProductCard/ProductCard";
+import Loader from "src/components/Loading/Loader";
 import styles from "./favourites.module.css";
 
 const API = "http://localhost:3000";

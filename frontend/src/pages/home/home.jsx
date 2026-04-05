@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { PageHeader } from "../../components/PageHeader/PageHeader";
-import ProductGrid from "../../components/ProductGrid/ProductGrid";
-import Loader from "../../components/Loading/Loader";
-import { useProducts } from "../../hooks/useProducts";
-import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { PageHeader } from "src/components/PageHeader/PageHeader";
+import ProductGrid from "src/components/ProductGrid/ProductGrid";
+import Loader from "src/components/Loading/Loader";
+import { useProducts } from "src/hooks/useProducts";
+import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
 import styles from "./home.module.css";
 
 const API = "http://localhost:3000";

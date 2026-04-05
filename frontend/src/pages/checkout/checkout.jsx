@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "src/context/CartContext";
 import styles from "./checkout.module.css";
 
 const API = "http://localhost:3000";

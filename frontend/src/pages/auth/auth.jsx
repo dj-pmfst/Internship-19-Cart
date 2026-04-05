@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./auth.module.css";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "src/context/CartContext";
 
 const API = 'http://localhost:3000'
 
