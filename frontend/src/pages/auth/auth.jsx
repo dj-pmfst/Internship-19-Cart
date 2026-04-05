@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./auth.module.css";
+import { useCart } from "../../context/CartContext";
 
 const API = 'http://localhost:3000'
 
@@ -13,6 +14,8 @@ export default function Auth() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { initCart } = useCart();
 
   const resetForm = () => {
     setEmail("");
@@ -54,8 +57,9 @@ export default function Auth() {
         );
 
       if (tab === "login") {
-        localStorage.setItem("token", data.token);
-        navigate("/home");
+        localStorage.setItem("token", json.data.token);
+        initCart(data.data.user.id)
+        navigate("/welcome");
       } else {
         setSuccess("Account created");
         switchTab("login");
@@ -69,9 +73,7 @@ export default function Auth() {
 
   return (
     <div className={styles.container}>
-      <span>
-        <img src="/src/assets/icons/Logo.svg" />
-      </span>
+      <img src="/src/assets/logo.svg" />
       <div className={styles.card}>
         <div className={styles.toggleGroup}>
           <button

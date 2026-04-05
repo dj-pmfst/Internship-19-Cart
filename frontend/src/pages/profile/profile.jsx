@@ -4,6 +4,7 @@ import { PageHeader } from "../../components/PageHeader/PageHeader";
 import Loader from "../../components/Loading/Loader";
 import styles from "./profile.module.css";
 import { useProfile } from "../../hooks/useProfile";
+import { useCart } from "../../context/CartContext";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -12,7 +13,8 @@ export default function Profile() {
     location.state?.orderSuccess || false
   );
 
-  const { user, address, loading, save } = useProfile();
+  const { user, address, loading } = useProfile();
+  const { resetCart } = useCart();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/");
@@ -27,6 +29,7 @@ export default function Profile() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    resetCart();
     navigate("/");
   };
 
@@ -64,18 +67,18 @@ export default function Profile() {
               <img src="src/assets/visa.svg" />
             </div>
             <div className={styles.visaInfo}>
-                <div className={styles.infoRow}>
-                  <span className={styles.infoLabel}>IBAN:</span>
-                  <span className={styles.infoValue}>{iban}</span>
-                </div>
-                <div className={styles.infoRow}>
-                  <span className={styles.infoLabel}>DATUM ISTEKA:</span>
-                  <span className={styles.infoValue}>03/27</span>
-                </div>
-                <div className={styles.infoRow}>
-                  <span className={styles.infoLabel}>ISCT KOD:</span>
-                  <span className={styles.infoValue}>422</span>
-                </div>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>IBAN:</span>
+                <span className={styles.infoValue}>{iban}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>DATUM ISTEKA:</span>
+                <span className={styles.infoValue}>03/27</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>ISCT KOD:</span>
+                <span className={styles.infoValue}>422</span>
+              </div>
               {!iban && !expiry && !cvv && (
                 <p className={styles.noPayment}>
                   Nema unesenih podataka o plaćanju

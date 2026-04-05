@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: rgb(47, 46, 46);
+    background-color: rgb(255, 255, 255);
     height: auto;
 }
 
@@ -13,8 +13,14 @@
     padding: 1rem;
 }
 
+.container img{
+    height: 50px;
+    width: 250px;
+    padding-left: 70px;
+}
+
 .card {
-    background-color: rgb(36, 35, 35);
+    background-color: rgb(131, 92, 92);
     border-radius: 16px;
     padding: 2.5rem 2rem;
     width: 100%;
@@ -110,7 +116,7 @@
 }
 
 .input {
-    background-color: rgb(47, 46, 46);
+    background-color: rgb(207, 184, 184);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     padding: 0.7rem 1rem;
@@ -152,12 +158,6 @@
 .submitBtn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-.container img{
-    max-width: 50px;
-    max-height: 50px;
-    filter: invert(100%);
 }
 
 .container span{
