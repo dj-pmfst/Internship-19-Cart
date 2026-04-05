@@ -56,11 +56,15 @@ export default function Auth() {
           data.message || `${tab === "login" ? "Login" : "Registration"} failed`
         );
 
-      if (tab === "login") {
-        localStorage.setItem("token", json.data.token);
-        initCart(data.data.user.id)
-        navigate("/welcome");
-      } else {
+        if (tab === 'login') {
+          const token = data.data.token
+          localStorage.setItem('token', token)
+        
+          const payload = JSON.parse(atob(token.split('.')[1]))
+          initCart(payload.id)
+        
+          navigate('/welcome')
+        } else {
         setSuccess("Account created");
         switchTab("login");
       }
