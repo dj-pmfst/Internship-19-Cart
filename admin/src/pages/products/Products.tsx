@@ -227,18 +227,6 @@ export default function Products() {
       ) : (
         <div className="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Sizes</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
             <tbody>
               {filtered.map((p) => (
                 <tr key={p.id}>

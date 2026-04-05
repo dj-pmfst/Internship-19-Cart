@@ -70,17 +70,6 @@ export default function Orders() {
       ) : (
         <div className="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>Order #</th>
-                <th>Customer</th>
-                <th>Items</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Update Status</th>
-              </tr>
-            </thead>
             <tbody>
               {filtered.map((order) => (
                 <>
