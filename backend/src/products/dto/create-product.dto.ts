@@ -28,10 +28,11 @@ export class CreateProductDto {
     @IsNumber()
     categoryId: number;
 
-    @ApiPropertyOptional({type: [String]})
+    @ApiPropertyOptional({ type: [String] })
     @IsOptional()
-    @IsString()
-    imageUrl?: string[];
+    @IsArray()
+    @IsString({ each: true })
+    imageUrl?: string[]
 
     @ApiPropertyOptional({ type: [String] })
     @IsOptional()

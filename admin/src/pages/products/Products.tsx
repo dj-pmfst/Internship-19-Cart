@@ -98,6 +98,7 @@ export default function Products() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.message || "Failed");
+
       setSuccess(editingId ? "Product updated" : "Product created");
       setForm(emptyForm);
       setEditingId(null);
