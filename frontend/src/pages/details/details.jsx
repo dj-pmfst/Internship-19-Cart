@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import Loader from "../../components/Loading/Loader";
@@ -14,16 +14,17 @@ export default function ProductDetail() {
   const [added, setAdded] = useState(false);
   const token = localStorage.getItem("token");
 
-  const { product, categories, isFav, setIsFav, loading } = useProductDetail(id)
-  const [selectedSize, setSelectedSize] = useState(null)
-  const [selectedColor, setSelectedColor] = useState(null)
+  const { product, categories, isFav, setIsFav, loading } =
+    useProductDetail(id);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
 
   useEffect(() => {
     if (product) {
-      setSelectedSize(product.sizes?.[0] || null)
-      setSelectedColor(product.colors?.[0] || null)
+      setSelectedSize(product.sizes?.[0] || null);
+      setSelectedColor(product.colors?.[0] || null);
     }
-  }, [product])
+  }, [product]);
 
   const toggleFav = async () => {
     if (!token) return;
@@ -52,6 +53,10 @@ export default function ProductDetail() {
   if (!product)
     return <div className={styles.notFound}>Proizvod nije pronaden.</div>;
 
+  const currentImage =
+  product.imageUrl?.[product.colors?.indexOf(selectedColor)] ??
+  product.imageUrl?.[0];
+
   return (
     <div className={styles.page}>
       <div className={styles.chipsRow}>
@@ -68,9 +73,9 @@ export default function ProductDetail() {
       </div>
 
       <div className={styles.imageWrap}>
-        {product.imageUrl ? (
+        {currentImage ? (
           <img
-            src={`${API}/${product.imageUrl}`}
+            src={`${API}/${currentImage}`}
             alt={product.name}
             className={styles.image}
           />

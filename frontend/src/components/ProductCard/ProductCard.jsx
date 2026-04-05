@@ -11,7 +11,7 @@ export default function ProductCard({ product, isFav, onToggleFav }) {
     <div className={styles.card} onClick={() => navigate(productDetailPath(product.id))}>
       <div className={styles.imageWrap}>
         {product.imageUrl
-          ? <img src={`${API}/${product.imageUrl}`} alt={product.name} className={styles.image} />
+          ? <img src={`${API}/${product.imageUrl[0]}`} alt={product.name} className={styles.image} />
           : <div className={styles.placeholder}> </div>
         }
       </div>

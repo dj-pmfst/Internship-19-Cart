@@ -28,7 +28,7 @@ model Product {
     description String
     price       Float
     brand       String
-    imageUrl    String?
+    imageUrl    String[]
     sizes       String[]
     colors      String[]
     inStock     Boolean   @default(true)
