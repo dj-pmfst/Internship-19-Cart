@@ -9,6 +9,7 @@ export default function ProductGrid({
   sentinelRef,
   isFavIds = [],
   onToggleFav,
+  variant = "default",
 }) {
   return (
     <>
@@ -17,6 +18,7 @@ export default function ProductGrid({
           <ProductCard
             key={p.id}
             product={p}
+            variant={variant}
             isFav={isFavIds.includes(p.id)}
             onToggleFav={onToggleFav}
           />

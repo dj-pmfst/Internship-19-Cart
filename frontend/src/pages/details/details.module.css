@@ -1,8 +1,10 @@
 .page {
-  min-height: 100vh;
+  height: 100vh;
   background: var(--bg);
   position: relative;
-  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .chipsRow {
@@ -37,7 +39,8 @@
 .imageWrap {
   background: var(--card-bg);
   width: 100%;
-  height: 340px;
+  flex: 1;              
+  min-height: 0;       
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,10 +58,11 @@
 }
 
 .info {
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.6rem;           
+  flex-shrink: 0;
 }
 
 .name {
@@ -131,7 +135,7 @@
   background: var(--brown-btn);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 26px;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -190,7 +194,9 @@
   transform: translateX(-50%);
   background: var(--brown-btn);
   border: 2px var(--brown-btn);
-  border-radius: 50px;
+  border-radius: 50%;     
+  width: 44px;           
+  height: 44px; 
   padding: 0.5rem;
   z-index: 10;
 }

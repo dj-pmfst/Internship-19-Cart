@@ -58,7 +58,6 @@ export default function Checkout() {
         }),
       });
       const json = await res.json();
-console.log('order created:', JSON.stringify(json))  
       if (!res.ok) throw new Error(json.message || "Order failed");
       clearCart();
       navigate("/profile", { state: { orderSuccess: true } });

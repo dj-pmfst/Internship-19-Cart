@@ -54,8 +54,8 @@ export default function ProductDetail() {
     return <div className={styles.notFound}>Proizvod nije pronaden.</div>;
 
   const currentImage =
-  product.imageUrl?.[product.colors?.indexOf(selectedColor)] ??
-  product.imageUrl?.[0];
+    product.imageUrl?.[product.colors?.indexOf(selectedColor)] ??
+    product.imageUrl?.[0];
 
   return (
     <div className={styles.page}>
@@ -71,7 +71,7 @@ export default function ProductDetail() {
           </button>
         ))}
       </div>
-
+      <hr />
       <div className={styles.imageWrap}>
         {currentImage ? (
           <img

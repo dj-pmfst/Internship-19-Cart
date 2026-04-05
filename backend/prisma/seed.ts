@@ -59,6 +59,7 @@ async function main() {
       sizes: ['40', '41', '42', '43'],
       colors: ['White', 'Black'],
       inStock: false,
+      imageUrl: ['images/missing.jpg']
     },
     {
       name: 'Onitsuka Tiger Mexico 66',

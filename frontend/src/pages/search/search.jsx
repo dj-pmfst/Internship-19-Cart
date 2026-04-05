@@ -5,6 +5,7 @@ import Loader from "../../components/Loading/Loader";
 import Filter from "../../components/Filter/Filter";
 import { useSearchProducts } from "../../hooks/useSearchProducts";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { useFavourites } from "../../hooks/useFavourites";
 import styles from "./search.module.css";
 
 const API = "http://localhost:3000";
@@ -15,6 +16,7 @@ export default function Search() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedColors, setSelectedColors] = useState([]);
+  const { favIds, toggleFav } = useFavourites();
 
   const { products, hasMore, loading, searched, search, loadMore, reset } =
     useSearchProducts();
@@ -42,29 +44,19 @@ export default function Search() {
   };
 
   const filteredProducts =
-  selectedColors.length > 0
-    ? products.filter((p) =>
-        p.colors?.some((c) =>
-          selectedColors.includes(c.toLowerCase())  
+    selectedColors.length > 0
+      ? products.filter((p) =>
+          p.colors?.some((c) => selectedColors.includes(c.toLowerCase()))
         )
-      )
-    : products;
+      : products;
 
   return (
     <div className={styles.page}>
       <PageHeader />
-
+      <hr />
       <div className={styles.searchWrap}>
         <div className={styles.searchBar}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="7" stroke="#aaa" strokeWidth="1.8" />
-            <path
-              d="M16.5 16.5L21 21"
-              stroke="#aaa"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
-          </svg>
+          <img src="src/assets/search.svg" />
           <input
             className={styles.input}
             value={query}
@@ -117,11 +109,12 @@ export default function Search() {
 
       {filteredProducts.length > 0 && (
         <ProductGrid
+          isFavIds={favIds}
+          onToggleFav={toggleFav}
           products={filteredProducts}
           hasMore={hasMore}
           loading={loading}
           sentinelRef={sentinelRef}
-          onToggleFav={() => {}}
           variant="detailed"
         />
       )}
@@ -139,7 +132,7 @@ export default function Search() {
         onClose={() => setFilterOpen(false)}
         selectedColors={selectedColors}
         onToggleColor={toggleColor}
-        onApply={() => search(query, activeCategory)}
+        onApply={() => {}}
       />
     </div>
   );
