@@ -4,13 +4,18 @@ const API = "http://localhost:3000";
 
 export function useFavourites() {
   const [favIds, setFavIds] = useState([]);
+  const [favourites, setFavourites] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!token) return;
     fetch(`${API}/favorites`, { headers: { Authorization: `Bearer ${token}` } })
       .then((r) => r.json())
-      .then((json) => setFavIds((json.data || []).map((f) => f.productId)));
+      .then((json) => {
+        const data = json.data || [];
+        setFavourites(data);
+        setFavIds(data.map((f) => f.productId));
+      });
   }, []);
 
   const toggleFav = async (productId) => {
@@ -22,6 +27,7 @@ export function useFavourites() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFavIds((prev) => prev.filter((id) => id !== productId));
+      setFavourites((prev) => prev.filter((f) => f.productId !== productId));
     } else {
       await fetch(`${API}/favorites/${productId}`, {
         method: "POST",
@@ -31,5 +37,5 @@ export function useFavourites() {
     }
   };
 
-  return { favIds, toggleFav };
+  return { favIds, favourites, toggleFav };
 }

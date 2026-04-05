@@ -4,14 +4,14 @@ import { PageHeader } from "src/components/PageHeader/PageHeader";
 import ProductCard from "src/components/ProductCard/ProductCard";
 import Loader from "src/components/Loading/Loader";
 import styles from "./favourites.module.css";
+import { useFavourites } from "src/hooks/useFavourites";
 
 const API = "http://localhost:3000";
 
 export default function Favourites() {
   const navigate = useNavigate();
-  const [favourites, setFavourites] = useState([]);
-  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const {favourites, toggleFav, loading} = useFavourites();
 
   useEffect(() => {
     if (!token) {
@@ -24,13 +24,6 @@ export default function Favourites() {
       .finally(() => setLoading(false));
   }, [token]);
 
-  const toggleFav = async (productId) => {
-    await fetch(`${API}/favorites/${productId}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setFavourites((prev) => prev.filter((f) => f.productId !== productId));
-  };
 
   if (loading) return <Loader />;
 

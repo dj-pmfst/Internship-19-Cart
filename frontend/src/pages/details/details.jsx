@@ -4,6 +4,7 @@ import { useCart } from "src/context/CartContext";
 import Loader from "src/components/Loading/Loader";
 import styles from "./details.module.css";
 import { useProductDetail } from "src/hooks/useProductDetail";
+import { useFavourites } from "src/hooks/useFavourites";
 
 const API = "http://localhost:3000";
 
@@ -12,10 +13,10 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
-  const token = localStorage.getItem("token");
+  const { favIds, toggleFav } = useFavourites();
+  const isFav = favIds.includes(Number(id));
 
-  const { product, categories, isFav, setIsFav, loading } =
-    useProductDetail(id);
+  const { product, categories, loading } = useProductDetail(id);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
 
@@ -25,23 +26,6 @@ export default function ProductDetail() {
       setSelectedColor(product.colors?.[0] || null);
     }
   }, [product]);
-
-  const toggleFav = async () => {
-    if (!token) return;
-    if (isFav) {
-      await fetch(`${API}/favorites/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setIsFav(false);
-    } else {
-      await fetch(`${API}/favorites/${id}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setIsFav(true);
-    }
-  };
 
   const handleAdd = () => {
     addToCart(product, selectedSize, selectedColor);
@@ -129,7 +113,7 @@ export default function ProductDetail() {
           </button>
           <button
             className={`${styles.heartBtn} ${isFav ? styles.heartActive : ""}`}
-            onClick={toggleFav}
+            onClick={() => toggleFav(Number(id))}
             aria-label="Toggle favourite">
             <img src="/src/assets/heart.svg" />
           </button>
