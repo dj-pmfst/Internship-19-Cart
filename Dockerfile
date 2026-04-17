@@ -10,6 +10,8 @@ COPY frontend/package.json ./frontend/
 COPY admin/package.json ./admin/
 COPY backend/prisma ./backend/prisma
 
+RUN ls -la /app/backend/prisma/migrations/
+
 RUN npm install
 RUN cd backend && npm install && npx prisma generate
 
