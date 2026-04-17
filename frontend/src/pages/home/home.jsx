@@ -7,7 +7,7 @@ import { useProducts } from "src/hooks/useProducts";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
 import styles from "./home.module.css";
 
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Home() {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { useCart } from "src/context/CartContext";
 import { PageHeader } from "src/components/PageHeader/PageHeader";
 import styles from "./cart.module.css";
 
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Cart() {
   const navigate = useNavigate();

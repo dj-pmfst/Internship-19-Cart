@@ -6,7 +6,7 @@ import styles from "./details.module.css";
 import { useProductDetail } from "src/hooks/useProductDetail";
 import { useFavourites } from "src/hooks/useFavourites";
 
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 export default function ProductDetail() {
   const { id } = useParams();

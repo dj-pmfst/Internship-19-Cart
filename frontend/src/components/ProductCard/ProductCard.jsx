@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { productDetailPath } from "src/routes/routes";
 import styles from "./ProductCard.module.css";
 
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 export default function ProductCard({
   product,

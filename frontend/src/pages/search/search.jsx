@@ -8,7 +8,7 @@ import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
 import { useFavourites } from "src/hooks/useFavourites";
 import styles from "./search.module.css";
 
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Search() {
   const [query, setQuery] = useState("");

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 
-const API = 'http://localhost:3000'
+const API = import.meta.env.VITE_API_URL;
 const LIMIT = 10
 
 export function useSearchProducts() {

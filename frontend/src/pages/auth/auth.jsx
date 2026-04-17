@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./auth.module.css";
 import { useCart } from "src/context/CartContext";
 
-const API = 'http://localhost:3000'
+const API = import.meta.env.VITE_API_URL;
 
 export default function Auth() {
   const navigate = useNavigate();

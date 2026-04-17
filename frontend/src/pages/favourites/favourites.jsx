@@ -6,7 +6,7 @@ import Loader from "src/components/Loading/loader";
 import styles from "./favourites.module.css";
 import { useFavourites } from "src/hooks/useFavourites";
 
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Favourites() {
   const navigate = useNavigate();
