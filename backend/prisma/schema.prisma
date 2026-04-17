@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
   output   = "../node_modules/.prisma/client"
 }
 
@@ -85,9 +85,4 @@ enum OrderStatus {
   CONFIRMED
   SHIPPED
   DELIVERED
-}
-
-generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
