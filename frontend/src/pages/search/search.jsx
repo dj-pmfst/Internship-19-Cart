@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { PageHeader } from "src/components/PageHeader/PageHeader";
 import ProductGrid from "src/components/ProductGrid/ProductGrid";
-import Loader from "src/components/Loading/Loader";
+import Loader from "src/components/Loading/loader";
 import Filter from "src/components/Filter/Filter";
 import { useSearchProducts } from "src/hooks/useSearchProducts";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";

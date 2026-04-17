@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "src/context/CartContext";
-import Loader from "src/components/Loading/Loader";
+import Loader from "src/components/Loading/loader";
 import styles from "./details.module.css";
 import { useProductDetail } from "src/hooks/useProductDetail";
 import { useFavourites } from "src/hooks/useFavourites";

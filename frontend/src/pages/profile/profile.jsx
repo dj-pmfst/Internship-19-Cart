@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { PageHeader } from "src/components/PageHeader/PageHeader";
-import Loader from "src/components/Loading/Loader";
+import Loader from "src/components/Loading/loader";
 import styles from "./profile.module.css";
 import { useProfile } from "src/hooks/useProfile";
 import { useCart } from "src/context/CartContext";
