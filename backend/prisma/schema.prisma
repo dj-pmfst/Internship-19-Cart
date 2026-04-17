@@ -86,3 +86,8 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
 }
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
