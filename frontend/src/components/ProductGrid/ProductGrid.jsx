@@ -1,5 +1,5 @@
 import ProductCard from "../ProductCard/ProductCard";
-import Loader from "../Loading/Loader";
+import Loader from "../Loading/loader";
 import styles from "./ProductGrid.module.css";
 
 export default function ProductGrid({

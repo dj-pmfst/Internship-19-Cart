@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "src/components/PageHeader/PageHeader";
 import ProductGrid from "src/components/ProductGrid/ProductGrid";
-import Loader from "src/components/Loading/Loader";
+import Loader from "src/components/Loading/loader";
 import { useProducts } from "src/hooks/useProducts";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
 import styles from "./home.module.css";
