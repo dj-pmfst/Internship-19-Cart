@@ -9,15 +9,12 @@ COPY package.json ./
 COPY backend/package.json ./backend/
 COPY frontend/package.json ./frontend/
 COPY admin/package.json ./admin/
-COPY backend/prisma ./backend/prisma
-
-RUN ls -la /app/backend/prisma/migrations/
 
 RUN npm install
-RUN cd backend && npm install && npx prisma generate
 
 COPY . .
 
+RUN cd backend && npm install && npx prisma generate
 RUN cd backend && npm run build
 
 CMD ["sh", "-c", "cd backend && npx prisma migrate deploy && node dist/main.js"]
