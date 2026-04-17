@@ -17,4 +17,6 @@ COPY . .
 RUN cd backend && npm install && npx prisma generate
 RUN cd backend && npm run build
 
+RUN find /app -name "main.js" 2>/dev/null
+
 CMD ["sh", "-c", "cd backend && npx prisma migrate deploy && node dist/main.js"]
