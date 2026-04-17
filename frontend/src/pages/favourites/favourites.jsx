@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "src/components/PageHeader/PageHeader";
 import ProductCard from "src/components/ProductCard/ProductCard";
-import Loader from "src/components/Loading/Loader";
+import Loader from "src/components/Loading/loader";
 import styles from "./favourites.module.css";
 import { useFavourites } from "src/hooks/useFavourites";
 
