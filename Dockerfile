@@ -20,4 +20,4 @@ RUN cd backend && npm run build && ls -la dist/
 
 RUN find /app -name "main.js" 2>/dev/null
 
-CMD ["sh", "-c", "cd backend && npx prisma migrate deploy && node dist/main.js"]
+CMD ["sh", "-c", "cd backend && npx prisma migrate deploy && node dist/src/main.js"]
