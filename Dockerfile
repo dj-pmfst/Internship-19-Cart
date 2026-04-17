@@ -15,6 +15,7 @@ RUN npm install
 COPY . .
 
 RUN cd backend && npm install --include=dev && npx prisma generate
+RUN cd backend && rm -f tsconfig.build.tsbuildinfo && npm run build && ls -la dist/
 RUN cd backend && npm run build && ls -la dist/
 
 RUN find /app -name "main.js" 2>/dev/null
