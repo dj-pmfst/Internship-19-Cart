@@ -2,6 +2,7 @@ FROM node:20
 
 WORKDIR /app
 
+# 
 COPY package.json ./
 COPY backend/package.json ./backend/
 COPY frontend/package.json ./frontend/
