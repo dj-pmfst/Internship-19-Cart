@@ -28,6 +28,17 @@ export default function ProductDetail() {
   }, [product]);
 
   const handleAdd = () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'add_to_cart',
+      product_name: product.name,
+      product_id: product.id,
+      product_price: product.price,
+      product_brand: product.brand,
+      selected_size: selectedSize,
+      selected_color: selectedColor,
+    });
+  
     addToCart(product, selectedSize, selectedColor);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
