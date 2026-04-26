@@ -40,7 +40,7 @@ export default function Favourites() {
 
       {favourites.length === 0 ? (
         <div className={styles.empty}>
-          <img src="src/assets/heart.svg" />
+          <img src="/assets//heart.svg" />
           <p className={styles.emptyTitle}>Nothing saved yet</p>
         </div>
       ) : (

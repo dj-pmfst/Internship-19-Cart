@@ -33,7 +33,7 @@ export default function ProductCard({
               onToggleFav(product.id);
             }}
             aria-label="Toggle favourite">
-            <img src="src/assets/heart.svg" />
+            <img src="/assets//heart.svg" />
           </button>
         </div>
         <div className={styles.detailedInfo}>

@@ -15,7 +15,7 @@ export default function Cart() {
       <hr />
       <h1 className={styles.title}>Košarica</h1>
       <div className={styles.notice}>
-        <img src="src/assets/error-warning.svg" />
+        <img src="/assets//error-warning.svg" />
         <span>PROIZVODI NISU REZERVIRANI</span>
       </div>
       <div className={styles.delivery}>

@@ -30,7 +30,7 @@ export default function Home() {
       <hr/>
       <div className={styles.searchWrap}>
         <div className={styles.searchBar} onClick={() => navigate("/search")}>
-          <img src="src/assets/search.svg" />
+          <img src="/assets//search.svg" />
           <span className={styles.searchPlaceholder}>Search for...</span>
         </div>
       </div>

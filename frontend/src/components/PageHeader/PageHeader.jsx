@@ -9,10 +9,10 @@ export function PageHeader() {
     <>
       <header className={styles.header}>
         <div className={styles.logo}>
-          <img src="src/assets/logo.svg" />
+          <img src="/assets//logo.svg" />
         </div>
         <button className={styles.notifBtn} onClick={() => setNotifOpen(true)}>
-          <img src="src/assets/notification.svg" />
+          <img src="/assets//notification.svg" />
         </button>
       </header>
 

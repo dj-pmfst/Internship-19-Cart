@@ -77,7 +77,7 @@ export default function Checkout() {
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionTitle}>ADRESA DOSTAVE</span>
-          <img src="src/assets/truck.svg" />
+          <img src="/assets//truck.svg" />
         </div>
 
         <div className={styles.addressCard}>
@@ -107,7 +107,7 @@ export default function Checkout() {
         </div>
 
         <div className={styles.paketo}>
-          <img src="src/assets/map-pin.svg" />
+          <img src="/assets//map-pin.svg" />
           <span>POKUPI NA PAKETOMATU</span>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function Checkout() {
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionTitle}>ADRESA NAPLATE</span>
-          <img src="src/assets/truck.svg" />
+          <img src="/assets//truck.svg" />
         </div>
 
         <div className={styles.addressCard}>

@@ -18,7 +18,7 @@ export default function Notifications({ open, onClose }) {
           <p className={styles.emptyText}>
             Prazno ☹
           </p>
-          <img src="/src/assets/IkonaNotifikacije.svg" />
+          <img src="/assets//IkonaNotifikacije.svg" />
         </div>
       </div>
     </>

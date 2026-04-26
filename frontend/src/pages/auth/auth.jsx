@@ -77,7 +77,7 @@ export default function Auth() {
 
   return (
     <div className={styles.container}>
-      <img src="/src/assets/logo.svg" />
+      <img src="/assets//logo.svg" />
       <div className={styles.card}>
         <div className={styles.toggleGroup}>
           <button

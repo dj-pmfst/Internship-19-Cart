@@ -56,7 +56,7 @@ export default function Search() {
       <hr />
       <div className={styles.searchWrap}>
         <div className={styles.searchBar}>
-          <img src="src/assets/search.svg" />
+          <img src="/assets//search.svg" />
           <input
             className={styles.input}
             value={query}
@@ -120,7 +120,7 @@ export default function Search() {
       )}
 
       <button className={styles.filterBtn} onClick={() => setFilterOpen(true)}>
-        <img src="src/assets/filter.svg" />
+        <img src="/assets//filter.svg" />
         Filter
         {selectedColors.length > 0 && (
           <span className={styles.filterBadge}>{selectedColors.length}</span>

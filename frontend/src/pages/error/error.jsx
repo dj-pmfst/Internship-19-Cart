@@ -10,7 +10,7 @@ export default function NotFound() {
       <div className={styles.notice}>
         <hr />
         <div className={styles.noticeContent}>
-          <img src="src/assets/error-warning.svg" />
+          <img src="/assets//error-warning.svg" />
           <span>DOGODILA SE GREŠKA</span>
         </div>
         <hr />

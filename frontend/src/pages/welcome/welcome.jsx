@@ -31,9 +31,9 @@ export default function Welcome() {
       <img
         ref={cartRef}
         className={styles["logo-cart"]}
-        src="src/assets/cart-logo.svg"
+        src="/assets//cart-logo.svg"
       />
-      <img ref={logoRef} className={styles.logo} src="src/assets/Logo.svg" />
+      <img ref={logoRef} className={styles.logo} src="/assets//Logo.svg" />
     </div>
   );
 }

@@ -126,13 +126,13 @@ export default function ProductDetail() {
             className={`${styles.heartBtn} ${isFav ? styles.heartActive : ""}`}
             onClick={() => toggleFav(Number(id))}
             aria-label="Toggle favourite">
-            <img src="/src/assets/heart.svg" />
+            <img src="/assets//heart.svg" />
           </button>
         </div>
 
         <div className={styles.filterRow}>
           <button className={styles.filterBtn} onClick={() => navigate(-1)}>
-            <img src="/src/assets/filter.svg" />
+            <img src="/assets//filter.svg" />
           </button>
         </div>
       </div>

@@ -10,7 +10,7 @@ export default function Confirmation() {
       </Link>
       <div className={styles.notice}>
         <div className={styles.noticeContent}>
-          <img src="src/assets/smile.svg" />
+          <img src="/assets//smile.svg" />
           HVALA ŠTO KUPUJEŠ S NAMA
         </div>
       </div>

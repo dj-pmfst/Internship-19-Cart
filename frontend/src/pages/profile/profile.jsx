@@ -46,7 +46,7 @@ export default function Profile() {
         <div className={styles.card}>
           <div className={styles.container}>
             <div className={styles.avatar}>
-              <img src="src/assets/profile.svg" />
+              <img src="/assets//profile.svg" />
             </div>
             <div className={styles.userInfo}>
               <div className={styles.infoRow}>
@@ -64,7 +64,7 @@ export default function Profile() {
 
           <div className={styles.visaSection}>
             <div className={styles.visaIcon}>
-              <img src="src/assets/visa.svg" />
+              <img src="/assets//visa.svg" />
             </div>
             <div className={styles.visaInfo}>
               <div className={styles.infoRow}>
